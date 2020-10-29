@@ -1,4 +1,4 @@
-name: LintAndBuild
+name: LintAndBuildSnap
   
 on: pull_request
 jobs:
@@ -10,17 +10,17 @@ jobs:
         with:
           python-version: '3.x'
           architecture: 'x64'
-      - uses: actions/checkout@v1
+
       - name: Install tox and lint
+      - uses: actions/checkout@v1
         run: | 
           pip install tox
           make lint
-      - name: Install snapcraft and lxd
-        run: |
-          sudo apt-get remove -y --purge lxd* lxc*
-          sudo snap install snapcraft --classic
-          sudo snap install lxd
-          sudo lxd init --auto
-      - name: Build flexlm-simulator snap
-        run: | 
-          snapcraft --use-lxd
+
+      - name: Install Snapcraft with LXD
+        uses: samuelmeuli/action-snapcraft@v1
+        with:
+          use_lxd: true
+
+      - name: Build snap
+        run: sg lxd -c 'snapcraft --use-lxd'
