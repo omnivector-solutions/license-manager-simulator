@@ -50,7 +50,7 @@
 The flexlm-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers.
 
 ## Prerequisites
-* Snapcraft
+Snapcraft
 
     sudo snap install snapcraft --classic
 
