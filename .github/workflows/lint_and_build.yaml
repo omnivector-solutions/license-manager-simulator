@@ -15,6 +15,10 @@ jobs:
           pip install tox
           make lint
       - uses: actions/checkout@v1
+      - name: Install tox and lint
+        run: | 
+          pip install tox
+          make lint
       - name: Install snapcraft and lxd
         run: |
           snap install snapcraft --classic
