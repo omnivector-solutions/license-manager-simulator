@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo snap install snapcraft --classic
           sudo snap install lxd
+          lxd.migrate
       - name: Build flexlm-simulator snap
         run: | 
           snapcraft --use-lxd
