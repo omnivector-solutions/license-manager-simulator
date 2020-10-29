@@ -68,7 +68,7 @@ Use the `snap install` command to install the built snap.
 Once the snap is installed, visit `http://<your-computer-ip-address>:9999` to see the simulated license usage output.
 
 ## Built With
-- [snapcraft](github.com/snapcore/snapcraft/)
+- [snapcraft](https://snapcraft.io)
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
