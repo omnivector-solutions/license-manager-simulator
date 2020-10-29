@@ -11,8 +11,10 @@ jobs:
           python-version: '3.x'
           architecture: 'x64'
 
-      - name: Install tox and lint
-        uses: actions/checkout@v1
+      - name: Checkout
+      - uses: actions/checkout@v1
+
+      - name: Lint check
         run: | 
           pip install tox
           make lint
