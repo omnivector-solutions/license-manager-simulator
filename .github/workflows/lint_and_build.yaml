@@ -2,8 +2,8 @@ name: LintAndBuild
   
 on: pull_request
 jobs:
-  build-snap:
-    name: "Python lint check"
+  lint-and-build-snap:
+    name: "Lint and build snap"
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/setup-python@v1
@@ -17,9 +17,9 @@ jobs:
           make lint
       - name: Install snapcraft and lxd
         run: |
+          sudo apt-get remove -y --purge lxd* lxc*
           sudo snap install snapcraft --classic
           sudo snap install lxd
-          lxd.migrate
       - name: Build flexlm-simulator snap
         run: | 
           snapcraft --use-lxd
