@@ -4,7 +4,6 @@
 [issues-url]: https://github.com/omnivector-solutions/flexlm-simulator/issues
 [license-url]: https://github.com/omnivector-solutions/flexlm-simulator/blob/master/LICENSE
 [website]: https://www.omnivector.solutions
-[product-screenshot]: images/screenshot.png
 
 [Contributors][contributors-url] •
 [Forks][forks-url] •
@@ -17,7 +16,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/omnivector-solutions/flexlm-simulator">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src=".images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">flexlm-simulator</h3>
