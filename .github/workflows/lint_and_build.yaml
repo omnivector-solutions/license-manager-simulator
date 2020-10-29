@@ -49,12 +49,7 @@ jobs:
 
       - name: Test for 200 status code
         run: |
-          status_code=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:9999")
-          if [[ $status_code == "200" ]]; then
-              exit 0
-          else
-	      exit -1
-          fi
+          if [[ $(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:9999") == "200" ]]; then exit 0; else exit 1; fi
 
   push-snap-to-edge:
     name: "Push to edge"
