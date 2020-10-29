@@ -33,3 +33,9 @@ parts:
   flexlm-simulator-web:
     plugin: dump
     source: src/flexlm-simulator-web/
+
+  hooks:
+    plugin: dump
+    source: src/hooks/
+    organize:
+      bin/: snap/hooks/
