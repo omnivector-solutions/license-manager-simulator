@@ -2,7 +2,7 @@
 [forks-url]: https://github.com/omnivector-solutions/flexlm-simulator/network/members
 [stars-url]: https://github.com/omnivector-solutions/flexlm-simulator/stargazers
 [issues-url]: https://github.com/omnivector-solutions/flexlm-simulator/issues
-[license-url]: https://github.com/omnivector-solutions/flexlm-simulator/blob/master/LICENSE.txt
+[license-url]: https://github.com/omnivector-solutions/flexlm-simulator/blob/master/LICENSE
 [website]: https://www.omnivector.solutions
 [product-screenshot]: images/screenshot.png
 
