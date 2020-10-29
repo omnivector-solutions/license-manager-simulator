@@ -1,3 +1,7 @@
+# TARGETS
+lint: ## Run linter
+	tox -e lint
+
 push-snap-to-edge: ## Push snap to edge s3
 	@./scripts/push_snap.sh edge
 

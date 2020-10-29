@@ -1,41 +1,12 @@
 #!/usr/bin/env python3
-import json
+"""FlexLM Generator."""
 import os
-import random
-import sqlite3
 
 from pathlib import Path
+from random import randint
 
 from jinja2 import Environment, FileSystemLoader
 
-
-#DB_NAME = 'flexlm_simulator.db'
-#DB_PATH = Path(f"{os.environ['SNAP_COMMON']/{DB_NAME}")
-
-#DB_CONN = sqlite3.connect(str(DB_PATH))
-
-
-#def init_db():
-#    c = DB_CONN.cursor()
-#
-#    # Create the Simulations table
-#    c.execute(
-#        "CREATE TABLE Simulations (PRIMARY KEY (simulation_id),"
-#        "application_name text, num_jobs integer)"
-#    )
-#
-#    # Create the Licensebookings table
-#    c.execute(
-#        "CREATE TABLE Licensebookings (PRIMARY KEY (license_booking_id), license_type text)"
-#    )
-#
-#    # Create the Features table
-#    c.execute(
-#        "CREATE TABLE Features (feature_name text, num_available integer, "
-#        "FOREIGN KEY (license_booking_id) REFERENCES Licensebookings(license__booking_id))"
-#    )
-#
-#len(c.execute('''SELECT name FROM sqlite_master WHERE type='table' AND name='simulations';''').fetchall())
 
 TOTAL_LICENSES = 1000
 MAX_JOBS = 50
@@ -44,15 +15,15 @@ USERS = ['jxezha', 'jbemfv', 'ratrta', 'ratrat']
 
 
 def generate_jobs():
+    """Generate a list of jobs using less then the TOTAL_LICENSES."""
     def gen_jobs_and_licenses():
+        """Generate a combination of random license allocations."""
         accum_jobs = list()
-        num_jobs = random.randint(0, MAX_JOBS)
-
-        for i in range(0, num_jobs):
+        for i in range(0, randint(0, MAX_JOBS)):
             accum_jobs.append(
                 {
                     'job_id': i,
-                    'license_allocations': random.randint(0, LICENSE_MAX_PER_JOB)
+                    'license_allocations': randint(0, LICENSE_MAX_PER_JOB)
                 }
             )
         return accum_jobs
@@ -85,4 +56,3 @@ def gen_flexlm_output() -> None:
 
 if __name__ == "__main__":
     gen_flexlm_output()
-
