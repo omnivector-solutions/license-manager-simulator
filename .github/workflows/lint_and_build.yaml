@@ -1,0 +1,24 @@
+name: LintAndBuild
+  
+on: pull_request
+jobs:
+  build-snap:
+    name: "Python lint check"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+      - name: Install tox and lint
+        run: | 
+          pip install tox
+          make lint
+      - uses: actions/checkout@v1
+      - name: Install snapcraft and lxd
+        run: |
+          snap install snapcraft --classic
+          snap install lxd
+      - name: Build flexlm-simulator snap
+        run: | 
+          snapcraft --use-lxd
