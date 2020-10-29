@@ -1,3 +1,4 @@
-.snap
-venv
+*.snap
+venv/
 *.db
+.tox/
