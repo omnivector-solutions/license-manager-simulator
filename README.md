@@ -1,8 +1,8 @@
-[contributors-url]: https://github.com/omnivector-solutions/flexlm-simulator/graphs/contributors
-[forks-url]: https://github.com/omnivector-solutions/flexlm-simulator/network/members
-[stars-url]: https://github.com/omnivector-solutions/flexlm-simulator/stargazers
-[issues-url]: https://github.com/omnivector-solutions/flexlm-simulator/issues
-[license-url]: https://github.com/omnivector-solutions/flexlm-simulator/blob/master/LICENSE
+[contributors-url]: https://github.com/omnivector-solutions/license-manager-simulator/graphs/contributors
+[forks-url]: https://github.com/omnivector-solutions/license-manager-simulator/network/members
+[stars-url]: https://github.com/omnivector-solutions/license-manager-simulator/stargazers
+[issues-url]: https://github.com/omnivector-solutions/license-manager-simulator/issues
+[license-url]: https://github.com/omnivector-solutions/license-manager-simulator/blob/master/LICENSE
 [website]: https://www.omnivector.solutions
 
 [Contributors][contributors-url] •
@@ -15,22 +15,22 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/omnivector-solutions/flexlm-simulator">
+  <a href="https://github.com/omnivector-solutions/license-manager-simulator">
     <img src=".images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">flexlm-simulator</h3>
+  <h3 align="center">license-manager-simulator</h3>
 
   <p align="center">
-    A License manager simulator project for testing license integration in user applications.
+    A License management simulator project for testing license integration in user applications.
     <br />
-    <a href="https://github.com/omnivector-solutions/flexlm-simulator/issues">Report Bug</a>
+    <a href="https://github.com/omnivector-solutions/license-manager-simulator/issues">Report Bug</a>
     ·
-    <a href="https://github.com/omnivector-solutions/flexlm-simulator/issues">Request Feature</a>
+    <a href="https://github.com/omnivector-solutions/license-manager-simulator/issues">Request Feature</a>
   </p>
 </p>
 
-[![](https://github.com/omnivector-solutions/flexlm-simulator/workflows/TestAndReleaseEdge/badge.svg)](https://github.com/omnivector-solutions/flexlm-simulator/actions?query=workflow%3ATestAndReleaseEdge)
+[![](https://github.com/omnivector-solutions/license-manager-simulator/workflows/TestAndReleaseEdge/badge.svg)](https://github.com/omnivector-solutions/license-manager-simulator/actions?query=workflow%3ATestAndReleaseEdge)
 
 <!-- TABLE OF CONTENTS -->
 
@@ -48,7 +48,7 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-The flexlm-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers.
+The license-manager-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers.
 
 ## Prerequisites
 Snapcraft
@@ -63,7 +63,7 @@ Use snapcraft to build and install the snap.
 ## Installation
 Use the `snap install` command to install the built snap.
 
-    sudo snap install flexlm-simulator_0.1_amd64.snap --dangerous
+    sudo snap install license-manager-simulator_0.1_amd64.snap --dangerous
 
 ## Usage
 Once the snap is installed, visit `http://<your-computer-ip-address>:9999` to see the simulated license usage output.
