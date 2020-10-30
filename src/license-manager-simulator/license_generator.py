@@ -16,43 +16,41 @@ USERS = ['jxezha', 'jbemfv', 'ratrta', 'ratrat']
 
 def generate_jobs():
     """Generate a list of jobs using less then the TOTAL_LICENSES."""
-    def gen_jobs_and_licenses():
+    def generate_jobs_and_license_allocations():
         """Generate a combination of random license allocations."""
-        accum_jobs = list()
-        for i in range(0, randint(0, MAX_JOBS)):
-            accum_jobs.append(
-                {
-                    'job_id': i,
-                    'license_allocations': randint(0, LICENSE_MAX_PER_JOB)
-                }
-            )
-        return accum_jobs
+        return [
+            {
+                'job_id': job_id,
+                'license_allocations': randint(0, LICENSE_MAX_PER_JOB)
+            }
+            for job_id in range(0, randint(0, MAX_JOBS))
+        ]
 
-    jobs = gen_jobs_and_licenses()
+    jobs = generate_jobs_and_license_allocations()
 
     while sum(job['license_allocations'] for job in jobs) > TOTAL_LICENSES:
-        jobs = gen_jobs_and_licenses()
+        jobs = generate_jobs_and_license_allocations()
 
     return jobs
 
 
-def gen_flexlm_output() -> None:
-    """Render the flexlm output file."""
+def generate_license_server_output() -> None:
+    """Render the license server output to a file."""
     source = 'flexlm.out.tmpl'
     target = Path(f"{os.environ['SNAP_COMMON']}/flexlm.out")
 
     loader = FileSystemLoader(f"{os.environ['SNAP']}")
-    rendered_template = Environment(loader=loader).get_template(source)
+    template = Environment(loader=loader).get_template(source)
 
     if target.exists():
         target.unlink()
 
     target.write_text(
-        rendered_template.render(
+        template.render(
             {'jobs': generate_jobs(), 'total_licenses': TOTAL_LICENSES}
         )
     )
 
 
 if __name__ == "__main__":
-    gen_flexlm_output()
+    generate_license_server_output()
