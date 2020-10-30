@@ -3,4 +3,4 @@
 set -eux
 
 
-/snap/license-manager-simulator/current/bin/python3 /snap/license-manager-simulator/current/license_manager_generator.py
+"$SNAP/bin/python3" "$SNAP/license_generator.py"

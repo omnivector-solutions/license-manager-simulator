@@ -14,10 +14,10 @@ apps:
     command: bin/uwsgi --processes 4 --threads 2 --http :9999 --wsgi-file $SNAP/app.py
     plugs: [network, network-bind]
 
-  license-manager-generator:
+  license-generator:
     daemon: oneshot
     timer: "00:00-24:00/1440"
-    command: ./license_manager_generator.py
+    command: ./license_generator.py
 
 parts:
   license-manager-simulator:
