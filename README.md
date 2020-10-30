@@ -78,4 +78,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 Omnivector Solutions - [www.omnivector.solutions][website] - <info@omnivector.solutions>
 
-Project Link: [https://github.com/omnivector-solutions/charm-centos7](https://github.com/omnivector-solutions/charm-centos7)
+Project Link: [https://github.com/omnivector-solutions/license-manager-simulator](https://github.com/omnivector-solutions/license-manager-simulator)
