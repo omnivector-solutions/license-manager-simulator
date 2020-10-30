@@ -30,6 +30,8 @@
   </p>
 </p>
 
+![](https://github.com/omnivector-solutions/flexlm-simulator/workflows/TestAndReleaseEdge/badge.svg?event=pull_request)
+
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
