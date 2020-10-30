@@ -3,4 +3,4 @@
 set -eux
 
 
-/snap/flexlm-simulator/current/bin/python3 /snap/flexlm-simulator/current/flexlm_generator.py
+/snap/license-manager-simulator/current/bin/python3 /snap/license-manager-simulator/current/license_manager_generator.py

@@ -1,26 +1,30 @@
-name: flexlm-simulator
+name: license-manager-simulator
 base: core20
 version: '0.1'
-summary: Simulate flexlm license server output.
+summary: Simulate a license management server output.
 description: |
-  Use this snap to simulate flexlm http endpoint.
+  Use this snap to simulate a license server http endpoint.
 
 grade: stable
 confinement: strict
 
 apps:
-  flexlm-simulator:
+  license-manager-simulator:
     daemon: simple
     command: bin/uwsgi --processes 4 --threads 2 --http :9999 --wsgi-file $SNAP/app.py
     plugs: [network, network-bind]
 
-  flexlm-generator:
+  license-manager-generator:
     daemon: oneshot
     timer: "00:00-24:00/1440"
-    command: ./flexlm_generator.py
+    command: ./license_manager_generator.py
 
 parts:
-  flexlm-simulator:
+  license-manager-simulator:
+    plugin: dump
+    source: src/license-manager-simulator/
+
+  python:
     plugin: python
     python-packages:
       - wheel
@@ -29,10 +33,6 @@ parts:
 
     stage-packages:
       - libpython3.8
-
-  flexlm-simulator-web:
-    plugin: dump
-    source: src/flexlm-simulator-web/
 
   hooks:
     plugin: dump
