@@ -1,14 +1,14 @@
 lmutil - Copyright (c) 1989-2012 Flexera Software LLC. All Rights Reserved.
 Flexible License Manager status on Thu 10/29/2020 17:44
  
-License server status: 24200@sesoco2919.global.scd.scania.com,24200@sesoco2920.global.scd.scania.com,24200@sesoco2921.global.scd.scania.com
-    License file(s) on sesoco2919.global.scd.scania.com: f:\flexlm\AbaqusLM\License\license.dat:
+License server status: server1,server2,server3
+    License file(s) on server1: f:\flexlm\AbaqusLM\License\license.dat:
  
-sesoco2919.global.scd.scania.com: license server UP v11.13
-sesoco2920.global.scd.scania.com: license server UP (MASTER) v11.13
-sesoco2921.global.scd.scania.com: license server UP v11.13
+server1: license server UP v11.13
+server2: license server UP (MASTER) v11.13
+server3: license server UP v11.13
 
-Vendor daemon status (on sesoco2920.global.scd.scania.com):
+Vendor daemon status (on server2):
   ABAQUSLM: UP v11.13
 
 Feature usage info:
@@ -20,7 +20,7 @@ Users of abaqus:  (Total of {{total_licenses}} licenses issued;  Total of {{ job
   floating license
 
 {% for job in jobs %}
-    asakek ts209-c-16-9.sss.se.scania.com /dev/tty (v62.2) (sesoco2919.global.scd.scania.com/24200 12507), start Thu 10/29 8:09, {{job.license_allocations}} licenses
+    asakek myserver.example.com /dev/tty (v62.2) (myserver.example.com/24200 12507), start Thu 10/29 8:09, {{job.license_allocations}} licenses
 {%- endfor %}
 
 
