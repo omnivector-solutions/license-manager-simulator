@@ -1,5 +1,5 @@
-name: "flexlm-simulator test and release operations"
-  
+name: "TestAndReleaseEdge"
+
 on: pull_request
 jobs:
   lint-and-build-snap:
