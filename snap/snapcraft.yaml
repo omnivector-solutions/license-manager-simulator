@@ -1,0 +1,41 @@
+name: flexlm-simulator
+base: core20
+version: '0.1'
+summary: Simulate flexlm license server output.
+description: |
+  Use this snap to simulate flexlm http endpoint.
+
+grade: stable
+confinement: strict
+
+apps:
+  flexlm-simulator:
+    daemon: simple
+    command: bin/uwsgi --processes 4 --threads 2 --http :9999 --wsgi-file $SNAP/app.py
+    plugs: [network, network-bind]
+
+  flexlm-generator:
+    daemon: oneshot
+    timer: "00:00-24:00/1440"
+    command: ./flexlm_generator.py
+
+parts:
+  flexlm-simulator:
+    plugin: python
+    python-packages:
+      - wheel
+      - uwsgi
+      - jinja2
+
+    stage-packages:
+      - libpython3.8
+
+  flexlm-simulator-web:
+    plugin: dump
+    source: src/flexlm-simulator-web/
+
+  hooks:
+    plugin: dump
+    source: src/hooks/
+    organize:
+      bin/: snap/hooks/

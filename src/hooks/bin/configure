@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -eux
+
+
+/snap/flexlm-simulator/current/bin/python3 /snap/flexlm-simulator/current/flexlm_generator.py
