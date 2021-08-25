@@ -1,6 +1,0 @@
-#!/bin/bash
-
-set -eux
-
-
-"$SNAP/bin/python3" "$SNAP/license_generator.py"
