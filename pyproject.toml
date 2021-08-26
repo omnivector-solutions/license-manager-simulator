@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "license-manager-simulator"
+version = "0.1.0"
+description = "The license-manager-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers."
+authors = ["OmniVector Solutions <info@omnivector.solutions>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.68.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pytest-asyncio = "^0.15.1"
+pytest-cov = "^2.12.1"
+pytest-env = "^0.6.2"
+pytest-random-order = "^1.0.4"
+black = "^21.7b0"
+flake8 = "^3.9.2"
+isort = "^5.9.3"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--random-order --cov=license_manager_simulator --cov-report=term-missing --cov-fail-under=85"
+env = [
+    "DATABASE_URL = sqlite:///./sqlite-testing.db?check_same_thread=true",
+]
+
+[tool.black]
+line-length = 110
+src = ["license_manager_simulator"]
+
+[tool.isort]
+line_length = 110
+src_paths = ["license_manager_simulator"]
+multi_line_output = 3
+include_trailing_comma = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
