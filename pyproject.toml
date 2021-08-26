@@ -8,6 +8,8 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.9"
 fastapi = "^0.68.1"
+SQLAlchemy = "^1.4.23"
+uvicorn = "^0.15.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -20,7 +22,6 @@ flake8 = "^3.9.2"
 isort = "^5.9.3"
 
 [tool.pytest.ini_options]
-minversion = "6.0"
 addopts = "--random-order --cov=license_manager_simulator --cov-report=term-missing --cov-fail-under=85"
 env = [
     "DATABASE_URL = sqlite:///./sqlite-testing.db?check_same_thread=true",
