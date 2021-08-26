@@ -1,6 +1,4 @@
 # TARGETS
-lint: ## Run linter
-	tox -e lint
 
 # Display target comments in 'make help'
 help: 
