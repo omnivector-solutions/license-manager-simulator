@@ -1,9 +1,8 @@
-from pydantic.tools import parse_obj_as
 from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
 from license_manager_simulator.models import License, LicenseInUse
-from license_manager_simulator.schemas import LicenseRow, LicenseCreate, LicenseInUseRow, LicenseInUseCreate
+from license_manager_simulator.schemas import LicenseCreate, LicenseInUseCreate, LicenseInUseRow, LicenseRow
 
 
 class LicenseNotFound(Exception):
@@ -22,8 +21,10 @@ def get_licenses_in_use(session: Session) -> list[LicenseInUseRow]:
     return session.execute(select(LicenseInUse)).scalars().all()
 
 
-def get_licenses_in_use_from_id(session: Session, license_name: str) -> list[LicenseInUse]:
-    return session.execute(select(LicenseInUse).where(LicenseInUse.license_name == license_name)).scalars().all()
+def get_licenses_in_use_from_name(session: Session, license_name: str) -> list[LicenseInUse]:
+    return (
+        session.execute(select(LicenseInUse).where(LicenseInUse.license_name == license_name)).scalars().all()
+    )
 
 
 def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
@@ -34,9 +35,15 @@ def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
     return db_license
 
 
+def _is_license_available(license_name, quantity, session):
+    license = session.execute(select(License).where(License.name == license_name)).scalars().first()
+    if license is None or quantity > (license.total - license.in_use):
+        return False
+    return True
+
+
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
-    license = session.execute(select(License).where(License.name == license_in_use.license_name)).scalars().first()
-    if license_in_use.quantity > (license.total - license.in_use):
+    if not _is_license_available(license_in_use.license_name, license_in_use.quantity, session):
         raise NotEnoughLicenses()
 
     session.execute(
@@ -51,7 +58,9 @@ def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) 
     return db_license_in_use
 
 
-def delete_license_in_use(session: Session, lead_host: str, user_name: str, quantity: int, license_name: str) -> list:
+def _get_licenses_in_database(
+    session: Session, lead_host: str, user_name: str, quantity: int, license_name: str
+) -> list[LicenseInUse]:
     stmt = (
         select(LicenseInUse)
         .join(License)
@@ -63,11 +72,18 @@ def delete_license_in_use(session: Session, lead_host: str, user_name: str, quan
         )
     )
     licenses = session.execute(stmt).scalars().all()
+    return licenses
+
+
+def delete_license_in_use(
+    session: Session, lead_host: str, user_name: str, quantity: int, license_name: str
+) -> list:
+    licenses = _get_licenses_in_database(session, lead_host, user_name, quantity, license_name)
     if not licenses:
         raise LicenseNotFound()
 
     ids_to_delete = [license.id for license in licenses]
     for id in ids_to_delete:
-        session.execute(delete(LicenseInUse).where(id=id))
+        session.execute(delete(LicenseInUse).where(LicenseInUse.id == id))
 
     return ids_to_delete

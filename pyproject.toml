@@ -22,18 +22,18 @@ flake8 = "^3.9.2"
 isort = "^5.9.3"
 
 [tool.pytest.ini_options]
-addopts = "--random-order --cov=license_manager_simulator --cov-report=term-missing --cov-fail-under=85"
+addopts = "-v --random-order --cov=license_manager_simulator --cov-report=term-missing --cov-fail-under=85"
 env = [
     "DATABASE_URL = sqlite:///./sqlite-testing.db?check_same_thread=true",
 ]
 
 [tool.black]
 line-length = 110
-src = ["license_manager_simulator"]
+src = ["license_manager_simulator", "tests"]
 
 [tool.isort]
 line_length = 110
-src_paths = ["license_manager_simulator"]
+src_paths = ["license_manager_simulator", "tests"]
 multi_line_output = 3
 include_trailing_comma = true
 
