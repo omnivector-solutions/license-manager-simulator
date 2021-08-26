@@ -51,25 +51,14 @@
 The license-manager-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers.
 
 ## Prerequisites
-Snapcraft
-
-    sudo snap install snapcraft --classic
 
 ## Build
-Use snapcraft to build and install the snap.
-
-    snapcraft --use-lxd
 
 ## Installation
-Use the `snap install` command to install the built snap.
-
-    sudo snap install license-manager-simulator_0.1_amd64.snap --dangerous
 
 ## Usage
-Once the snap is installed, visit `http://<your-computer-ip-address>:9999` to see the simulated license usage output.
 
 ## Built With
-- [snapcraft](https://snapcraft.io)
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
