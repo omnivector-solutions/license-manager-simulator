@@ -10,7 +10,7 @@ class LicenseNotFound(Exception):
 
 
 class NotEnoughLicenses(Exception):
-    """The number of requeted licenses if bigger than the available."""
+    """The number of requested licenses is bigger than the available."""
 
 
 def get_licenses(session: Session) -> list[LicenseRow]:
@@ -35,15 +35,13 @@ def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
     return db_license
 
 
-def _is_license_available(license_name, quantity, session):
+def _is_license_available(session: Session, license_name: str, quantity: int) -> bool:
     license = session.execute(select(License).where(License.name == license_name)).scalars().first()
-    if license is None or quantity > (license.total - license.in_use):
-        return False
-    return True
+    return license is not None and quantity <= (license.total - license.in_use)
 
 
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
-    if not _is_license_available(license_in_use.license_name, license_in_use.quantity, session):
+    if not _is_license_available(session, license_in_use.license_name, license_in_use.quantity):
         raise NotEnoughLicenses()
 
     session.execute(
