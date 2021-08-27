@@ -14,7 +14,10 @@ format: install
 	poetry run black license_manager_simulator tests
 	poetry run isort license_manager_simulator tests
 
-qa: test lint
+qa: lint test
+
+local: install
+	poetry run uvicorn --host 0.0.0.0 license_manager_simulator.main:app --reload
 
 clean: clean-eggs clean-build
 	@find . -iname '*.pyc' -delete
