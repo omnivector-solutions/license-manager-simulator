@@ -57,7 +57,11 @@ def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) 
 
 
 def _get_licenses_in_database(
-    session: Session, lead_host: str, user_name: str, quantity: int, license_name: str
+    session: Session,
+    lead_host: str,
+    user_name: str,
+    quantity: int,
+    license_name: str,
 ) -> list[LicenseInUse]:
     stmt = (
         select(LicenseInUse)
@@ -74,7 +78,11 @@ def _get_licenses_in_database(
 
 
 def delete_license_in_use(
-    session: Session, lead_host: str, user_name: str, quantity: int, license_name: str
+    session: Session,
+    lead_host: str,
+    user_name: str,
+    quantity: int,
+    license_name: str,
 ) -> list:
     licenses = _get_licenses_in_database(session, lead_host, user_name, quantity, license_name)
     if not licenses:
