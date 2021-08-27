@@ -14,17 +14,20 @@ class NotEnoughLicenses(Exception):
 
 
 def get_licenses(session: Session) -> list[LicenseRow]:
-    return session.execute(select(License)).scalars().all()
+    db_licenses = session.execute(select(License)).scalars().all()
+    return [LicenseRow.from_orm(license) for license in db_licenses]
 
 
 def get_licenses_in_use(session: Session) -> list[LicenseInUseRow]:
-    return session.execute(select(LicenseInUse)).scalars().all()
+    db_licenses_in_use = session.execute(select(LicenseInUse)).scalars().all()
+    return [LicenseInUseRow.from_orm(license) for license in db_licenses_in_use]
 
 
 def get_licenses_in_use_from_name(session: Session, license_name: str) -> list[LicenseInUse]:
-    return (
+    db_licenses_in_use = (
         session.execute(select(LicenseInUse).where(LicenseInUse.license_name == license_name)).scalars().all()
     )
+    return [LicenseInUseRow.from_orm(license) for license in db_licenses_in_use]
 
 
 def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
@@ -32,7 +35,7 @@ def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
     session.add(db_license)
     session.commit()
     session.refresh(db_license)
-    return db_license
+    return LicenseRow.from_orm(db_license)
 
 
 def _is_license_available(session: Session, license_name: str, quantity: int) -> bool:
@@ -53,7 +56,7 @@ def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) 
     session.add(db_license_in_use)
     session.commit()
     session.refresh(db_license_in_use)
-    return db_license_in_use
+    return LicenseInUseRow.from_orm(db_license_in_use)
 
 
 def _get_licenses_in_database(
