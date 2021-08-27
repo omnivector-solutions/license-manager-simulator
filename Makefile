@@ -14,7 +14,7 @@ format: install
 	poetry run black license_manager_simulator tests
 	poetry run isort license_manager_simulator tests
 
-qa: lint test
+qa: test lint
 
 local: install
 	poetry run uvicorn --host 0.0.0.0 license_manager_simulator.main:app --reload

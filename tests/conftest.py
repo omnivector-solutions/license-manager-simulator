@@ -1,12 +1,14 @@
 import os
 import re
 
+from fastapi.testclient import TestClient
 from pytest import fixture
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from license_manager_simulator.config import settings
 from license_manager_simulator.database import Base
+from license_manager_simulator.main import app, get_db
 from license_manager_simulator.schemas import LicenseCreate, LicenseInUseCreate
 
 
@@ -22,7 +24,7 @@ def enforce_testing_database():
 
 @fixture(scope="session")
 def engine():
-    return create_engine(settings.DATABASE_URL)
+    return create_engine(settings.DATABASE_URL, connect_args={"check_same_thread": False})
 
 
 @fixture(scope="session")
@@ -42,6 +44,15 @@ def session(engine, tables):
     session.close()
     transaction.rollback()
     connection.close()
+
+
+@fixture
+def client(session):
+    def override_get_db():
+        yield session
+
+    app.dependency_overrides[get_db] = override_get_db
+    yield TestClient(app)
 
 
 @fixture
