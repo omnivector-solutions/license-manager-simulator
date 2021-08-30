@@ -5,7 +5,7 @@ from license_manager_simulator.models import License
 
 
 def test_create_license_use(client):
-    """Test that the correct status code and response are returned on in use license creation.""" 
+    """Test that the correct status code and response are returned on in use license creation."""
     response = client.post(
         "/licenses/",
         json={"name": "test_name", "total": 100},
