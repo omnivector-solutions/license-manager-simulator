@@ -24,6 +24,7 @@ def test_create_license(one_license, session):
 # ignoring warning about double rollback
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
 def test_create_license_duplicate(one_license, session):
+    """Test that an exception is thrown if a duplicate license entry is created."""
     crud.create_license(session, one_license)
     with pytest.raises(IntegrityError):
         crud.create_license(session, one_license)
@@ -109,6 +110,7 @@ def test_create_license_in_use(session, one_license_in_use):
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
 def test_create_license_in_use_duplicate(session, one_license_in_use):
+    """Test that an exception is thrown if a duplicate in use license entry is created."""
     session.add(License(id=1, name="test_name", total=100))
     session.commit()
 
