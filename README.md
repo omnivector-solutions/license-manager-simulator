@@ -30,7 +30,7 @@
   </p>
 </p>
 
-[![](https://github.com/omnivector-solutions/license-manager-simulator/workflows/TestAndReleaseEdge/badge.svg)](https://github.com/omnivector-solutions/license-manager-simulator/actions?query=workflow%3ATestAndReleaseEdge)
+[![.github/workflows/test_push.yaml](https://github.com/omnivector-solutions/license-manager-simulator/actions/workflows/test_push.yaml/badge.svg)](https://github.com/omnivector-solutions/license-manager-simulator/actions/workflows/test_push.yaml)
 
 <!-- TABLE OF CONTENTS -->
 

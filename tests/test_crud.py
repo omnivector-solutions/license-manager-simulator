@@ -1,5 +1,6 @@
 import pytest
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
 from license_manager_simulator import crud
 from license_manager_simulator.models import License, LicenseInUse
@@ -18,6 +19,15 @@ def test_create_license(one_license, session):
     assert licenses_in_db[0].name == one_license.name
     assert licenses_in_db[0].total == one_license.total
     assert licenses_in_db[0].in_use == 0
+
+
+# ignoring warning about double rollback
+@pytest.mark.filterwarnings("ignore::RuntimeWarning")
+def test_create_license_duplicate(one_license, session):
+    """Test that an exception is thrown if a duplicate license entry is created."""
+    crud.create_license(session, one_license)
+    with pytest.raises(IntegrityError):
+        crud.create_license(session, one_license)
 
 
 def test_get_licenses_empty(session):
@@ -96,6 +106,17 @@ def test_create_license_in_use(session, one_license_in_use):
     assert license_in_use_in_db[0].user_name == one_license_in_use.user_name
     assert license_in_use_in_db[0].lead_host == one_license_in_use.lead_host
     assert license_in_use_in_db[0].license_name == one_license_in_use.license_name
+
+
+@pytest.mark.filterwarnings("ignore::RuntimeWarning")
+def test_create_license_in_use_duplicate(session, one_license_in_use):
+    """Test that an exception is thrown if a duplicate in use license entry is created."""
+    session.add(License(id=1, name="test_name", total=100))
+    session.commit()
+
+    crud.create_license_in_use(session, one_license_in_use)
+    with pytest.raises(IntegrityError):
+        crud.create_license_in_use(session, one_license_in_use)
 
 
 def test_create_license_in_use_not_available(session, one_license_in_use):

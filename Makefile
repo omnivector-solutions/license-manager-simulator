@@ -16,6 +16,9 @@ format: install
 
 qa: test lint
 
+local: install
+	poetry run uvicorn --host 0.0.0.0 license_manager_simulator.main:app --reload
+
 clean: clean-eggs clean-build
 	@find . -iname '*.pyc' -delete
 	@find . -iname '*.pyo' -delete
