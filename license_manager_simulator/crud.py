@@ -95,4 +95,5 @@ def delete_license_in_use(
     for id in ids_to_delete:
         session.execute(delete(LicenseInUse).where(LicenseInUse.id == id))
 
+    session.commit()
     return ids_to_delete
