@@ -11,16 +11,16 @@ else
 fi
 
 dude=$(echo "user$RANDOM")
-payload="{\"quantity\": $X,
-	  \"user_name\": \"$dude\",
-	  \"lead_host\": \"string\",
-	  \"license_name\": \"string\"}"
+payload="{\"quantity\": "$X", \
+          \"user_name\": \""$dude"\", \
+          \"lead_host\": \"string\", \
+          \"license_name\": \"string\"}"
 
 echo "Requesting $X licenses for user $dude"
 status=$(curl -s -o /dev/null -w '%{http_code}' \
-	      -X POST \
+	      -X 'POST' \
 	      -H 'Content-Type: application/json' \
-	      -d "$PAYLOAD" \
+	      -d "$payload" \
 	      "$URL"/licenses-in-use/)
 if [ "$status" = "201" ]; then
 	echo "There are enought licenses available, lets run (sleep) the job"
@@ -34,7 +34,7 @@ echo "Puting the licenses back"
 curl -s -o /dev/null \
      -X DELETE \
      -H 'Content-Type: application/json' \
-     -d "$PAYLOAD" \
-     "$URL"/licenses-in-use
+     -d "$payload" \
+     "$URL"/licenses-in-use/
 
 echo "Job done"
