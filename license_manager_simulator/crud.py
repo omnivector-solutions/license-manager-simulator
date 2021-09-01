@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
@@ -13,17 +15,17 @@ class NotEnoughLicenses(Exception):
     """The number of requested licenses is bigger than the available."""
 
 
-def get_licenses(session: Session) -> list[LicenseRow]:
+def get_licenses(session: Session) -> List[LicenseRow]:
     db_licenses = session.execute(select(License)).scalars().all()
     return [LicenseRow.from_orm(license) for license in db_licenses]
 
 
-def get_licenses_in_use(session: Session) -> list[LicenseInUseRow]:
+def get_licenses_in_use(session: Session) -> List[LicenseInUseRow]:
     db_licenses_in_use = session.execute(select(LicenseInUse)).scalars().all()
     return [LicenseInUseRow.from_orm(license) for license in db_licenses_in_use]
 
 
-def get_licenses_in_use_from_name(session: Session, license_name: str) -> list[LicenseInUse]:
+def get_licenses_in_use_from_name(session: Session, license_name: str) -> List[LicenseInUse]:
     db_licenses_in_use = (
         session.execute(select(LicenseInUse).where(LicenseInUse.license_name == license_name)).scalars().all()
     )
@@ -65,7 +67,7 @@ def _get_licenses_in_database(
     user_name: str,
     quantity: int,
     license_name: str,
-) -> list[LicenseInUse]:
+) -> List[LicenseInUse]:
     stmt = (
         select(LicenseInUse)
         .join(License)
@@ -86,7 +88,7 @@ def delete_license_in_use(
     user_name: str,
     quantity: int,
     license_name: str,
-) -> list:
+) -> List:
     licenses = _get_licenses_in_database(session, lead_host, user_name, quantity, license_name)
     if not licenses:
         raise LicenseNotFound()

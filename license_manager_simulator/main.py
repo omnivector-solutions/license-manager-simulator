@@ -1,3 +1,5 @@
+from typing import List
+
 from fastapi import Body, Depends, FastAPI, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -34,7 +36,7 @@ def create_license(license: schemas.LicenseCreate, db: Session = Depends(get_db)
 @app.get(
     "/licenses/",
     status_code=status.HTTP_200_OK,
-    response_model=list[schemas.LicenseRow],
+    response_model=List[schemas.LicenseRow],
 )
 def list_licenses(db: Session = Depends(get_db)):
     return crud.get_licenses(db)
@@ -58,7 +60,7 @@ def create_license_in_use(license_in_use: schemas.LicenseInUseCreate, db: Sessio
 @app.get(
     "/licenses-in-use/",
     status_code=status.HTTP_200_OK,
-    response_model=list[schemas.LicenseInUseRow],
+    response_model=List[schemas.LicenseInUseRow],
 )
 def list_licenses_in_use(db: Session = Depends(get_db)):
     return crud.get_licenses_in_use(db)
@@ -67,7 +69,7 @@ def list_licenses_in_use(db: Session = Depends(get_db)):
 @app.get(
     "/licenses-in-use/{license_name}",
     status_code=status.HTTP_200_OK,
-    response_model=list[schemas.LicenseInUseRow],
+    response_model=List[schemas.LicenseInUseRow],
 )
 def list_licenses_in_use_from_name(license_name: str, db: Session = Depends(get_db)):
     return crud.get_licenses_in_use_from_name(db, license_name)
@@ -76,7 +78,7 @@ def list_licenses_in_use_from_name(license_name: str, db: Session = Depends(get_
 @app.delete(
     "/licenses-in-use/",
     status_code=status.HTTP_200_OK,
-    response_model=list[int],
+    response_model=List[int],
 )
 def delete_license_in_use(
     lead_host: str = Body(...),

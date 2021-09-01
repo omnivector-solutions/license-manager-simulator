@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -24,7 +24,7 @@ class LicenseCreate(BaseModel):
 
 class LicenseRow(LicenseCreate):
     id: Optional[int] = None
-    licenses_in_use: list[LicenseInUseRow] = []
+    licenses_in_use: List[LicenseInUseRow] = []
     in_use: int = 0
 
     class Config:
