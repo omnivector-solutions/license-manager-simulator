@@ -184,7 +184,7 @@ def test_create_license_in_use_not_enough(client, session, one_license):
         json={"license_name": "test_name", "quantity": 9999, "user_name": "user1", "lead_host": "host1"},
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert "Not enough licenses available" in response.json()["detail"]
+    assert "Not enough licenses available" in response.text
 
 
 def test_create_license_in_use_dont_exists(client):
@@ -193,7 +193,7 @@ def test_create_license_in_use_dont_exists(client):
         json={"license_name": "test_name", "quantity": 1, "user_name": "user1", "lead_host": "host1"},
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert "Not enough licenses available" in response.json()["detail"]
+    assert "Not enough licenses available" in response.text
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
@@ -208,7 +208,7 @@ def test_create_license_in_use_duplicate(client, session, one_license):
         json={"license_name": "test_name", "quantity": 10, "user_name": "user1", "lead_host": "host1"},
     )
     assert response.status_code == status.HTTP_409_CONFLICT
-    assert "LicenseInUse already exists" in response.json()["detail"]
+    assert "LicenseInUse already exists" in response.text
 
 
 def test_delete_license_in_use(client, session, one_license):
@@ -235,4 +235,4 @@ def test_delete_license_in_use_not_found(client):
         json={"license_name": "test_name", "quantity": 10, "user_name": "user1", "lead_host": "host1"},
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
-    assert "License not found" in response.json()["detail"]
+    assert "License not found" in response.text
