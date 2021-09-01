@@ -40,19 +40,22 @@ def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
     return LicenseRow.from_orm(db_license)
 
 
-def _is_license_available(session: Session, license_name: str, quantity: int) -> bool:
+def _get_license_available(session: Session, license_name: str, quantity: int) -> bool:
     license = session.execute(select(License).where(License.name == license_name)).scalars().first()
-    return license is not None and quantity <= (license.total - license.in_use)
+    if license is None or quantity > (license.total - license.in_use):
+        return None
+    return license
 
 
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
-    if not _is_license_available(session, license_in_use.license_name, license_in_use.quantity):
+    license = _get_license_available(session, license_in_use.license_name, license_in_use.quantity)
+    if not license:
         raise NotEnoughLicenses()
 
     session.execute(
         update(License)
         .where(License.name == license_in_use.license_name)
-        .values(in_use=license_in_use.quantity)
+        .values(in_use=license_in_use.quantity + license.in_use)
     )
     db_license_in_use = LicenseInUse(**license_in_use.dict())
     session.add(db_license_in_use)
