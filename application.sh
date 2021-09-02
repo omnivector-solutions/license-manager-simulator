@@ -10,11 +10,17 @@ else
 	X=$1
 fi
 
-dude=$(echo "user$RANDOM")
+# user_name: from the CLI or user$RANDOM
+if [ -z $2 ]; then
+	dude=$(echo "user$RANDOM")
+else
+	dude=$2
+fi
+
 payload="{\"quantity\": "$X", \
           \"user_name\": \""$dude"\", \
-          \"lead_host\": \"string\", \
-          \"license_name\": \"string\"}"
+          \"lead_host\": \"host1\", \
+          \"license_name\": \"fake_license\"}"
 
 echo "Requesting $X licenses for user $dude"
 status=$(curl -s -o /dev/null -w '%{http_code}' \
