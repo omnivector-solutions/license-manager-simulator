@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from license_manager_simulator import crud
 from license_manager_simulator.models import License, LicenseInUse
+from license_manager_simulator.schemas import LicenseInUseCreate
 
 
 def test_create_license(one_license, session):
@@ -106,6 +107,32 @@ def test_create_license_in_use(session, one_license_in_use):
     assert license_in_use_in_db[0].user_name == one_license_in_use.user_name
     assert license_in_use_in_db[0].lead_host == one_license_in_use.lead_host
     assert license_in_use_in_db[0].license_name == one_license_in_use.license_name
+
+
+def test_create_license_in_use_correctly_updates_license_in_use(session):
+    session.add(License(id=1, name="test_name", total=30))
+    session.commit()
+
+    crud.create_license_in_use(
+        session,
+        LicenseInUseCreate(
+            quantity=10,
+            user_name="user1",
+            lead_host="host1",
+            license_name="test_name",
+        ),
+    )
+    crud.create_license_in_use(
+        session,
+        LicenseInUseCreate(
+            quantity=20,
+            user_name="user1",
+            lead_host="host1",
+            license_name="test_name",
+        ),
+    )
+    licenses_in_db = session.execute(select(License)).scalars().all()
+    assert licenses_in_db[0].in_use == 30
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
