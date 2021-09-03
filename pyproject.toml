@@ -21,6 +21,7 @@ black = "^21.7b0"
 flake8 = "^3.9.2"
 isort = "^5.9.3"
 requests = "^2.26.0"
+Jinja2 = "^3.0.1"
 
 [tool.pytest.ini_options]
 addopts = "-v --random-order --cov=license_manager_simulator --cov-report=term-missing --cov-fail-under=85"
