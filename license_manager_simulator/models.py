@@ -10,7 +10,6 @@ class License(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, unique=True, nullable=False)
     total = Column(Integer, nullable=False)
-    in_use = Column(Integer, default=0)
 
     licenses_in_use = relationship("LicenseInUse", back_populates="license")
 

@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 
 
 class LicenseInUseCreate(BaseModel):
@@ -25,7 +25,14 @@ class LicenseCreate(BaseModel):
 class LicenseRow(LicenseCreate):
     id: Optional[int] = None
     licenses_in_use: List[LicenseInUseRow] = []
-    in_use: int = 0
+    in_use: Optional[int] = 0
+
+    @root_validator()
+    def in_use_validator(cls, values) -> int:
+        values["in_use"] = 0
+        for license_in_use in values["licenses_in_use"]:
+            values["in_use"] += license_in_use.quantity
+        return values
 
     class Config:
         orm_mode = True
