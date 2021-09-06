@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import delete, select, update
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from license_manager_simulator.models import License, LicenseInUse
@@ -40,23 +40,18 @@ def create_license(session: Session, license: LicenseCreate) -> LicenseRow:
     return LicenseRow.from_orm(db_license)
 
 
-def _get_license_available(session: Session, license_name: str, quantity: int) -> bool:
+def _get_license_available(session: Session, license_name: str) -> LicenseRow:
     license = session.execute(select(License).where(License.name == license_name)).scalars().first()
-    if license is None or quantity > (license.total - license.in_use):
-        return None
     return license
 
 
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
-    license = _get_license_available(session, license_in_use.license_name, license_in_use.quantity)
+    license = _get_license_available(session, license_in_use.license_name)
     if not license:
         raise NotEnoughLicenses()
-
-    session.execute(
-        update(License)
-        .where(License.name == license_in_use.license_name)
-        .values(in_use=license_in_use.quantity + license.in_use)
-    )
+    license_row = LicenseRow.from_orm(license)
+    if license_row.total < license_in_use.quantity + license_row.in_use:
+        raise NotEnoughLicenses()
     db_license_in_use = LicenseInUse(**license_in_use.dict())
     session.add(db_license_in_use)
     session.commit()

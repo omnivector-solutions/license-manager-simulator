@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from license_manager_simulator import crud
 from license_manager_simulator.models import License, LicenseInUse
-from license_manager_simulator.schemas import LicenseInUseCreate
+from license_manager_simulator.schemas import LicenseInUseCreate, LicenseRow
 
 
 def test_create_license(one_license, session):
@@ -12,14 +12,12 @@ def test_create_license(one_license, session):
     assert created_license.id
     assert created_license.name == one_license.name
     assert created_license.total == one_license.total
-    assert created_license.in_use == 0
 
     licenses_in_db = session.execute(select(License)).scalars().all()
     assert len(licenses_in_db) == 1
     assert licenses_in_db[0].id == created_license.id
     assert licenses_in_db[0].name == one_license.name
     assert licenses_in_db[0].total == one_license.total
-    assert licenses_in_db[0].in_use == 0
 
 
 # ignoring warning about double rollback
@@ -132,7 +130,7 @@ def test_create_license_in_use_correctly_updates_license_in_use(session):
         ),
     )
     licenses_in_db = session.execute(select(License)).scalars().all()
-    assert licenses_in_db[0].in_use == 30
+    assert LicenseRow.from_orm(licenses_in_db[0]).in_use == 30
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
@@ -147,7 +145,7 @@ def test_create_license_in_use_duplicate(session, one_license_in_use):
 
 
 def test_create_license_in_use_not_available(session, one_license_in_use):
-    session.add(License(id=1, name="test_name", total=10, in_use=10))
+    session.add(License(id=1, name="test_name", total=0))
     session.commit()
 
     with pytest.raises(crud.NotEnoughLicenses):
@@ -191,3 +189,21 @@ def test_delete_license_in_use_not_found(session, one_license, one_license_in_us
         )
     license_in_use_in_db = session.execute(select(LicenseInUse)).scalars().all()
     assert len(license_in_use_in_db) == 1
+
+
+def test_delete_license_in_use_correctly_updates_license_in_use(session, one_license_in_use):
+    session.add(License(id=1, name="test_name", total=30))
+    session.add(LicenseInUse(**one_license_in_use.dict(), id=1))
+    session.commit()
+    licenses_in_db = session.execute(select(License)).scalars().all()
+    assert LicenseRow.from_orm(licenses_in_db[0]).in_use == one_license_in_use.quantity
+    crud.delete_license_in_use(
+        session,
+        one_license_in_use.lead_host,
+        one_license_in_use.user_name,
+        one_license_in_use.quantity,
+        one_license_in_use.license_name,
+    )
+
+    licenses_in_db = session.execute(select(License)).scalars().all()
+    assert LicenseRow.from_orm(licenses_in_db[0]).in_use == 0
