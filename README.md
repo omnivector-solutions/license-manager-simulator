@@ -68,23 +68,22 @@ $ make local
 This will run the server at `http://localhost:8000`
 
 ## Usage
-You can add/remove Licenses from the license-server using the `http://localhost:8000/docs`, There
-is possible to make requests directly with the browser into the API, with examples.
-
+You can add/remove Licenses from the license-server using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
 To be able to generate the output from the server in the same format as the `lmutil`, we have the
-`license_manager_simulator/template_files` folder, there is the `lms-util.py` file. To be able to use
+`license_manager_simulator/template_files` folder, in there is the `lms-util.py` file. To be able to use
 it is necessary to install `jinja2` and `requests`, and it is necessary to keep the `flexlm.out.tmpl`
 in the same folder as the `lms-util.py`
 
 
 We also have the `application.sh` script in the root of the repository, it is a simple bash script
-that is intended to run in slurm as a job that uses the licenses from the API. It is just a dummy
-application for test that create a license_in_use in the API, sleeps, then delete the
+that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
+application for test that creates a license_in_use in the API, sleeps, then deletes the
 license_in_use.
-Just run with `./application.sh` and it is possible to specify the number of licenses in the first
-args and the user_name in the second args, but they are optional and defaults to `42` and
-`user$RANDOM` respectively.
+
+To run it, execute `./application.sh`. It is possible to specify the number of licenses as the first
+argument and the user name as the second (e.g. `./application.sh 123 john_doe`), but they are 
+optional and defaults to `42` and `user$RANDOM` respectively.
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
