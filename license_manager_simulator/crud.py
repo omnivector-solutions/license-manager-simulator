@@ -46,9 +46,18 @@ def _get_license_available(session: Session, license_name: str) -> LicenseRow:
 
 
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
+    """Creates the license_in_use.
+
+    We must ensure that there is a license with the license_name in the database, if there is not we raise
+    a LicenseNotFound exception.
+    Given that the license exists in the database, the total number of licenses must be greater than or equal
+    the in_use value for the license plus the quantity needed for the new license_in_use. If it is not, then
+    raise a NotEnoughLicenses exception.
+    If all the conditions are satisfied, the license_in_use is created and returned.
+    """
     license = _get_license_available(session, license_in_use.license_name)
     if not license:
-        raise NotEnoughLicenses()
+        raise LicenseNotFound()
     license_row = LicenseRow.from_orm(license)
     if license_row.total < license_in_use.quantity + license_row.in_use:
         raise NotEnoughLicenses()
@@ -87,6 +96,11 @@ def delete_license_in_use(
     quantity: int,
     license_name: str,
 ) -> List:
+    """Delete the license_in_use from the database.
+
+    To be able to delete a license_in_use, the license_in_use must exists in the database, if it doesn't
+    then we raise a LicenseNotFound exception.
+    """
     licenses = _get_licenses_in_database(session, lead_host, user_name, quantity, license_name)
     if not licenses:
         raise LicenseNotFound()

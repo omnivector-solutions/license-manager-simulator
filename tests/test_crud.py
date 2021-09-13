@@ -153,7 +153,7 @@ def test_create_license_in_use_not_available(session, one_license_in_use):
 
 
 def test_create_license_in_use_empty(session, one_license_in_use):
-    with pytest.raises(crud.NotEnoughLicenses):
+    with pytest.raises(crud.LicenseNotFound):
         crud.create_license_in_use(session, one_license_in_use)
 
 
