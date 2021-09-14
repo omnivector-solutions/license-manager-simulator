@@ -6,4 +6,4 @@
 #SBATCH --output=/tmp/%j.out
 #SBATCH --error=/tmp/%j.err
 
-srun -Lfake_license.fake_feature /tmp/application.sh
+srun -Lfake_license.fake_feature@flexlm:42 /tmp/application.sh
