@@ -193,7 +193,7 @@ def test_create_license_in_use_dont_exists(client):
         json={"license_name": "test_name", "quantity": 1, "user_name": "user1", "lead_host": "host1"},
     )
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert "doesn't exists" in response.text
+    assert "doesn't exist" in response.text
 
 
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")

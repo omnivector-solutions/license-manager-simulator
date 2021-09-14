@@ -13,7 +13,7 @@ fi
 
 payload="{\"quantity\": "$X", \
           \"user_name\": \""$USER"\", \
-	  \"lead_host\": \"$(hostname)\", \
+          \"lead_host\": \"$(hostname)\", \
           \"license_name\": \"fake_license.fake_feature\"}"
 
 echo "Requesting $X licenses for user $USER"
