@@ -5,5 +5,6 @@
 #SBATCH --job-name=test
 #SBATCH --output=/tmp/%j.out
 #SBATCH --error=/tmp/%j.err
+#SBATCH --licenses=fake_license.fake_feature@flexlm:42
 
-srun -Lfake_license.fake_feature@flexlm:42 /tmp/application.sh
+srun /tmp/application.sh
