@@ -59,7 +59,6 @@ $ pip install .
 ```
 it will install all the dependencies to be able to run the API.
 
-
 To run the API, use the `Makefile`:
 
 ```bash
@@ -74,7 +73,6 @@ To be able to generate the output from the server in the same format as the `lmu
 `license_manager_simulator/template_files` folder, in there is the `lms-util.py` file. To be able to use
 it is necessary to install `jinja2` and `requests`, and it is necessary to keep the `flexlm.out.tmpl`
 in the same folder as the `lms-util.py`
-
 
 We also have the `application.sh` script in the root of the repository, it is a simple bash script
 that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
