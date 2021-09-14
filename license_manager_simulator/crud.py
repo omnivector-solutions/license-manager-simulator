@@ -46,7 +46,7 @@ def _get_license_available(session: Session, license_name: str) -> LicenseRow:
 
 
 def create_license_in_use(session: Session, license_in_use: LicenseInUseCreate) -> LicenseInUseRow:
-    """Creates the license_in_use.
+    """Create the license_in_use.
 
     We must ensure that there is a license with the license_name in the database, if there is not we raise
     a LicenseNotFound exception.

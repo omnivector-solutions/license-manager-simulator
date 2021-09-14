@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-# change the URL
+# You must modify this value to reflect the ip address and port that the
+# license-manager-simulator is listening on in your environment.
+#
+# The format of the value is: `http://<ip-address>:<port>`
 URL="http://localhost:8000"
 
 # number of licenses: from the CLI or 42

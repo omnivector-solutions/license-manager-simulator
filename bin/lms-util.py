@@ -8,7 +8,10 @@ this way we can use the same flexlm parser in the license-manager-agent.
 import requests
 from jinja2 import Environment, FileSystemLoader
 
-# Change this URL
+# You must modify this value to reflect the ip address and port that the
+# license-manager-simulator is listening on in your environment.
+#
+# The format of the value is: `http://<ip-address>:<port>`
 URL = "http://localhost:8000"
 
 
