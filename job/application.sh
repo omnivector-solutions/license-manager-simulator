@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+# change the URL
 URL="http://localhost:8000"
 
 # number of licenses: from the CLI or 42
@@ -10,19 +11,12 @@ else
 	X=$1
 fi
 
-# user_name: from the CLI or user$RANDOM
-if [ -z $2 ]; then
-	dude=$(echo "user$RANDOM")
-else
-	dude=$2
-fi
-
 payload="{\"quantity\": "$X", \
-          \"user_name\": \""$dude"\", \
-          \"lead_host\": \"host1\", \
-          \"license_name\": \"fake_license\"}"
+          \"user_name\": \""$USER"\", \
+	  \"lead_host\": \"$(hostname)\", \
+          \"license_name\": \"fake_license.fake_feature\"}"
 
-echo "Requesting $X licenses for user $dude"
+echo "Requesting $X licenses for user $USER"
 status=$(curl -s -o /dev/null -w '%{http_code}' \
 	      -X 'POST' \
 	      -H 'Content-Type: application/json' \
