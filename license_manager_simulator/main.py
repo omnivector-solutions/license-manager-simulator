@@ -53,7 +53,7 @@ def create_license_in_use(license_in_use: schemas.LicenseInUseCreate, db: Sessio
     except crud.LicenseNotFound:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"The license {license_in_use.license_name} don't exists.",
+            detail=f"The license {license_in_use.license_name} doesn't exists.",
         )
     except crud.NotEnoughLicenses:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough licenses available.")
