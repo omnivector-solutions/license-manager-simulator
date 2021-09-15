@@ -50,6 +50,11 @@ def list_licenses(db: Session = Depends(get_db)):
 def create_license_in_use(license_in_use: schemas.LicenseInUseCreate, db: Session = Depends(get_db)):
     try:
         created_license_in_use = crud.create_license_in_use(db, license_in_use)
+    except crud.LicenseNotFound:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"The license {license_in_use.license_name} doesn't exist.",
+        )
     except crud.NotEnoughLicenses:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough licenses available.")
     except IntegrityError as e:

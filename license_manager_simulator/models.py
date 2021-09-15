@@ -11,6 +11,7 @@ class License(Base):
     name = Column(String, index=True, unique=True, nullable=False)
     total = Column(Integer, nullable=False)
 
+    # this relationship is a must to be able to calculate the in_use value, we don't store the in_use value.
     licenses_in_use = relationship("LicenseInUse", back_populates="license")
 
 
@@ -25,6 +26,7 @@ class LicenseInUse(Base):
 
     license = relationship("License", back_populates="licenses_in_use")
 
+    # the quantity, user_name, lead_host and license_name must be unique.
     __table_args__ = (
         UniqueConstraint("quantity", "user_name", "lead_host", "license_name", name="_unique_contraint"),
     )

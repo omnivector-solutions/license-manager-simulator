@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 File that will be called by the license-manager-agent in the report function.
 
@@ -8,6 +8,10 @@ this way we can use the same flexlm parser in the license-manager-agent.
 import requests
 from jinja2 import Environment, FileSystemLoader
 
+# You must modify this value to reflect the ip address and port that the
+# license-manager-simulator is listening on in your environment.
+#
+# The format of the value is: `http://<ip-address>:<port>`
 URL = "http://localhost:8000"
 
 
