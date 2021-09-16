@@ -1,6 +1,6 @@
 from pydantic import BaseSettings, Field
 
-_DB_RX = r"^(sqlite)://.+$"
+_DB_RX = r"^(sqlite|postgresql)://.+$"
 
 
 class Settings(BaseSettings):
