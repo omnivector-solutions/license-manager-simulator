@@ -14,13 +14,6 @@ else
 	X=$1
 fi
 
-FLOOR=100;
-CEILING=300;
-RANGE=$(($CEILING-$FLOOR+1));
-RESULT=$RANDOM;
-let "RESULT %= $RANGE";
-RESULT=$(($RESULT+$FLOOR));
-
 payload="{\"quantity\": "$X", \
           \"user_name\": \""$USER"\", \
           \"lead_host\": \"$(hostname)\", \
@@ -34,7 +27,7 @@ status=$(curl -s -o /dev/null -w '%{http_code}' \
 	      "$URL"/licenses-in-use/)
 if [ "$status" = "201" ]; then
 	echo "There are enought licenses available, lets run (sleep) the job"
-	sleep $RESULT
+	sleep $((RANDOM % 100 + 100))
 else
 	echo "There are not enough licenses, let's crash the job"
 	tail /NOT_ENOUGH_LICENSES
