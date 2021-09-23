@@ -27,7 +27,7 @@ status=$(curl -s -o /dev/null -w '%{http_code}' \
 	      "$URL"/licenses-in-use/)
 if [ "$status" = "201" ]; then
 	echo "There are enought licenses available, lets run (sleep) the job"
-	sleep 123
+	sleep $((RANDOM % 100 + 100))
 else
 	echo "There are not enough licenses, let's crash the job"
 	tail /NOT_ENOUGH_LICENSES
