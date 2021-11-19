@@ -16,22 +16,35 @@ URL = "http://localhost:8000"
 
 
 def get_server_data():
-    license = requests.get(URL + "/licenses/").json()[0]
-    return {
-        "license_name": license.get("name"),
-        "total_licenses": license.get("total"),
-        "in_use": license.get("in_use"),
-        "licenses_in_use": license.get("licenses_in_use"),
-    }
+    licenses = requests.get(URL + "/licenses/").json()
+
+    licenses_information = []
+    any_in_use = False
+
+    for license in licenses:
+        licenses_information.append(
+            {
+                "license_name": license.get("name"),
+                "total_licenses": license.get("total"),
+                "in_use": license.get("in_use"),
+                "licenses_in_use": license.get("licenses_in_use"),
+            }
+        )
+        if license.get("in_use") > 0:
+            any_in_use = True
+
+    return {"licenses_information": licenses_information, "any_in_use": any_in_use}
 
 
 def generate_license_server_output() -> None:
     """Print output formatted to stdout."""
     source = "rlm.out.tmpl"
-    license_information = get_server_data()
+    licenses_information = get_server_data()
 
-    template = Environment(loader=FileSystemLoader(".")).get_template(source)
-    print(template.render(**license_information))
+    template = Environment(loader=FileSystemLoader("."), trim_blocks=True, lstrip_blocks=True).get_template(
+        source
+    )
+    print(template.render(**licenses_information))
 
 
 if __name__ == "__main__":
