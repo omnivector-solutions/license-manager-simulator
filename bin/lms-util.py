@@ -16,13 +16,25 @@ URL = "http://localhost:8000"
 
 
 def get_server_data():
-    license = requests.get(URL + "/licenses/").json()[0]
-    return {
-        "license_name": license.get("name"),
-        "total_licenses": license.get("total"),
-        "in_use": license.get("in_use"),
-        "licenses_in_use": license.get("licenses_in_use"),
+    """
+    To simulate the FlexLM output, add this license to the backend:
+    {
+        "name": "abaqus",
+        "total": 1000
     }
+    Since FlexLM outputs only the ``feature`` name (omitting the ``product``), the license
+    in the simulator database should be created with the feature as its name.
+    """
+    licenses = requests.get(URL + "/licenses/").json()
+
+    for license in licenses:
+        if license["name"] == "abaqus":
+            return {
+                "license_name": license.get("name"),
+                "total_licenses": license.get("total"),
+                "in_use": license.get("in_use"),
+                "licenses_in_use": license.get("licenses_in_use"),
+            }
 
 
 def generate_license_server_output() -> None:
