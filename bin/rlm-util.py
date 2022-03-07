@@ -16,24 +16,27 @@ URL = "http://localhost:8000"
 
 
 def get_server_data():
+    """
+    To simulate the RLM output, add this license to the backend:
+    {
+        "name": "converge_super",
+        "total": 11
+    }
+    Since RLM outputs the feature name as the product and feature concatenated with a underscore,
+    the license in the simulator database should be named with two words concatenated by ``_``.
+    """
     licenses = requests.get(URL + "/licenses/").json()
 
-    licenses_information = []
-    any_in_use = False
-
     for license in licenses:
-        licenses_information.append(
-            {
+        if license["name"] == "converge_super":
+            any_in_use = license["in_use"] > 0
+            return {
                 "license_name": license.get("name"),
                 "total_licenses": license.get("total"),
                 "in_use": license.get("in_use"),
                 "licenses_in_use": license.get("licenses_in_use"),
+                "any_in_use": any_in_use,
             }
-        )
-        if license.get("in_use") > 0:
-            any_in_use = True
-
-    return {"licenses_information": licenses_information, "any_in_use": any_in_use}
 
 
 def generate_license_server_output() -> None:
