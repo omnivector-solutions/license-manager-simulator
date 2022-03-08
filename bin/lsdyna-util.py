@@ -16,24 +16,28 @@ URL = "http://localhost:8000"
 
 
 def get_server_data():
-    """Get license information form the server."""
-    license = requests.get(URL + "/licenses/").json()[-1]
-
-    license_information = {
-        "license_name": license.get("name").upper(),
-        "total_licenses": license.get("total"),
-        "in_use": license.get("in_use"),
-        "free": int(license.get("total")) - int(license.get("in_use")),
-        "licenses_in_use": license.get("licenses_in_use"),
+    """
+    To simulate the LS-Dyna output, add this license to the backend:
+    {
+        "name": "MPPDYNA",
+        "total": 500
     }
+    Since LS-Dyna outputs the feature name with all letters in uppercase,
+    the license in the simulator database should be named in uppercase as well.
+    """
+    licenses = requests.get(URL + "/licenses/").json()
 
-    if len(license_information["licenses_in_use"]) > 0:
-        used = "-"
-    else:
-        used = 0
-    license_information["used"] = used
-
-    return license_information
+    for license in licenses:
+        if license["name"] == "MPPDYNA":
+            used = "-" if len(license["licenses_in_use"]) > 0 else 0
+            return {
+                "license_name": license.get("name").upper(),
+                "total_licenses": license.get("total"),
+                "in_use": license.get("in_use"),
+                "free": int(license.get("total")) - int(license.get("in_use")),
+                "licenses_in_use": license.get("licenses_in_use"),
+                "used": used,
+            }
 
 
 def generate_license_server_output():
