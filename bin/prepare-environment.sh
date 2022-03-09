@@ -55,6 +55,9 @@ for folder in ${folders[@]}; do
 	juju scp -- -r $folder license-manager-agent/leader:/tmp/simulator-files
 done
 
+# Creating bin folder
+juju ssh license-manager-agent/leader sudo mkdir $file_path
+
 # Moving files to correct location and adding executable permission
 for i in {0..3}; do
 	echo "Moving ${scripts[$i]} script file and renaming to ${binary_names[$i]}"
