@@ -43,7 +43,7 @@ templates=(
 for i in {0..3}; do
 	echo "Updating ${folders[$i]}/${scripts[$i]} file"
 	sed -i "s/#\!\/usr\/bin\/env python3/$python_path/gi" ${folders[$i]}/${scripts[$i]}
-	sed -i "s/(\".\")/(\"$template_path\")/gi" ${folders[$i]}/${scripts[$i]}
+	sed -i "s/(\".\")/(\"$file_path\")/gi" ${folders[$i]}/${scripts[$i]}
 	sed -i "s/http:\/\/localhost:8000/$lm_sim_ip/gi" ${folders[$i]}/${scripts[$i]}
 done
 
