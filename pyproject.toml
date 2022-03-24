@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "The license-manager-simulator is an application that simulates lmutil output for use in the development of applications which interface to the license servers."
 authors = ["OmniVector Solutions <info@omnivector.solutions>"]
 license = "MIT"
+packages = [{ include = "license_manager_simulator" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
