@@ -63,10 +63,10 @@ templates=(
 
 # Charm configs that indicate where each binary is located 
 configs=(
-	"lmutil_path"
-	"rlmutil_path"
-	"lsdyna_path"
-	"lmxendutil_path"
+	"lmutil-path"
+	"rlmutil-path"
+	"lsdyna-path"
+	"lmxendutil-path"
 )
 
 # Changing path and ip address in script files
