@@ -34,8 +34,8 @@ sed -i "s|fake_license.fake_feature|abaqus.abaqus|gi" ./job/batch.sh
 
 # Copy batch and application files to slurmd node
 echo "Copying files to slurmd node"
-juju scp ../job/batch.sh slurmd/leader:/tmp
-juju scp ../job/application.sh slurmd/leader:/tmp
+juju scp ./job/batch.sh slurmd/leader:/tmp
+juju scp ./job/application.sh slurmd/leader:/tmp
 
 # Config Slurm partition
 echo "Configuring Slurm partition as mypartition"
