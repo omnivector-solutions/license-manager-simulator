@@ -34,7 +34,7 @@ scripts=(
 # Running scripts
 for script in ${scripts[@]}; do
     echo "Executing script: $script"
-    ./$script $lm_sim_ip
+    ./scripts/$script $lm_sim_ip
 done
 
 echo "All done!"
