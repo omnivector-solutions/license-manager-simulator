@@ -25,12 +25,12 @@ fi
 
 # Change ip address in application file
 echo "Updating application file with simulator ip address"
-sed -i "s|http://localhost:8000|$lm_sim_ip|gi" ../job/application.sh
+sed -i "s|http://localhost:8000|$lm_sim_ip|gi" ./job/application.sh
 
 # Change license name to `abaqus` in job files
 echo "Updating job files with correct license name"
-sed -i "s|fake_feature|abaqus|gi" ../job/application.sh
-sed -i "s|fake_license.fake_feature|abaqus.abaqus|gi" ../job/batch.sh
+sed -i "s|fake_feature|abaqus|gi" ./job/application.sh
+sed -i "s|fake_license.fake_feature|abaqus.abaqus|gi" ./job/batch.sh
 
 # Copy batch and application files to slurmd node
 echo "Copying files to slurmd node"
