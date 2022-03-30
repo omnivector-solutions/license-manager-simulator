@@ -73,30 +73,32 @@ To use the license-manager-simulator you must have `Slurm` and `license-manager-
 Instructions for this can be found at the [License Manager documentation](https://omnivector-solutions.github.io/license-manager/).
 
 For each license server supported, there's a script that requests license information to the simulator API and a template
-where the data will be rendered. These files need to be copied to the license-manager-agent machine.
+where the data will be rendered. These files need to be copied to the `license-manager-agent` machine.
 
-Use the `prepare-environment.sh` script in the `bin` folder to copy the files to their correct location:
+You also need to add licenses to the simulator API and to the Slurm cluster, and copy an application file to the `slurmd` node to run a job.
+
+To prepare your local `license-manager-agent` to use the simulator, run the simulator API, get its IP address and
+pass it to the `make setup` command:
 
 ```bash
-$ cd bin
-$ ./prepare-environment.sh
+$ make setup lm_sim_ip=http://127.0.0.1:8000
 ```
 
-It is necessary to add licenses to the slurm, run:
-```bash
-# sacctmgr add resource Type=license Clusters=osd-cluster Server=flexlm Names=fake_license.fake_feature Count=1000 ServerType=flexlm  PercentAllowed=100 -i
-```
-
+After executing this command, you'll be able to submit jobs that use the simulated licenses.
 ## Usage
 You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
-We also have the `job` folder, there is the `application.sh` it is a simple bash script
-that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
-application for test that creates a license_in_use in the API, sleeps, then deletes the
-license_in_use. There is also the `batch.sh`, which is the script to be run via `sbatch`.
+There is an `application.sh` script that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
+application for test that creates a license_in_use in the API, sleeps, then deletes the license_in_use.
+There is also a `batch.sh` script to run the application via `sbatch`.
 
-To run it, it is necessary to have both scripts available in the nodes and have licenses in the
-cluster.
+These files are seeded with the API IP address provided in the step above and available at `/tmp` folder in the `slurmd` node.
+
+To submit the job, run:
+
+```bash
+$ juju ssh slurmd/leader sbatch /tmp/batch.sh
+```
 
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
