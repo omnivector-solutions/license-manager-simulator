@@ -47,32 +47,40 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-The license-manager-simulator is an application that simulates `lmutil` output for use in the development of applications which interface to the license servers.
+The license-manager-simulator is an application that simulates several license servers output for use in the development of applications which interface to the license servers.
 
-There are 2 parts: the API and the application to render the `lmutil` output.
+There are 2 parts: the API to manage license information and the applications that simulate the license servers output.
+
+License servers supported:
+
+* FlexLM
+* RLM
+* LS-Dyna
+* LM-X
 
 ## Installation
-To install this project, just clone the repository, then:
+To install this project, clone the repository and use `docker-compose` to run it in containers:
 
 ```bash
-$ pip install .
+$ docker-compose up
 ```
-it will install all the dependencies to be able to run the API.
+This will create a container for the API, and also a PostgreSQL container for the database.
 
-To run the API, use the `Makefile`:
-
-```bash
-$ make local
-```
-This will run the server at `http://localhost:8000`
+The API will be available at `http://localhost:8000`.
 
 ## Prerequisites
-For the `bin/lms-util.py` you may need to change the first line to match the python3 in the
-environment that have requests and jinja2 installed, and also it is necessary to change the URL to
-match the license-manager backend URL.
+To use the license-manager-simulator you must have `Slurm` and `license-manager-agent` charms deployed with `Juju`.
+Instructions for this can be found at the [License Manager documentation](https://omnivector-solutions.github.io/license-manager/).
 
-For the `job/application.sh` it may be necessary to change the URL to match the
-license-manager-simulator backend.
+For each license server supported, there's a script that requests license information to the simulator API and a template
+where the data will be rendered. These files need to be copied to the license-manager-agent machine.
+
+Use the `prepare-environment.sh` script in the `bin` folder to copy the files to their correct location:
+
+```bash
+$ cd bin
+$ ./prepare-environment.sh
+```
 
 It is necessary to add licenses to the slurm, run:
 ```bash
@@ -80,13 +88,7 @@ It is necessary to add licenses to the slurm, run:
 ```
 
 ## Usage
-You can add/remove Licenses from the license-server using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
-
-To be able to generate the output from the server in the same format as the `lmutil`, we have the
-`bin` folder, in there is the `lms-util.py` file. To be able to use
-it is necessary to install `jinja2` and `requests`, and it is necessary to keep the `flexlm.out.tmpl`
-in the same folder as the `lms-util.py`. Must replace the `lmutil` with `lms-util.py`, keeping the
-`lmutil` name, and put the `flexlm.out.tmpl` in the same folder.
+You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
 We also have the `job` folder, there is the `application.sh` it is a simple bash script
 that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
