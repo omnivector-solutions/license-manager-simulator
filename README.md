@@ -75,7 +75,7 @@ Instructions for this can be found at the [License Manager documentation](https:
 For each license server supported, there's a script that requests license information to the simulator API and a template
 where the data will be rendered. These files need to be copied to the `license-manager-agent` machine.
 
-You also need to add licenses to the simulator API and to the Slurm cluster, and copy an application file to the `slurmd` node to run a job.
+You also need to add licenses to the simulator API and to the Slurm cluster, and then copy an application file to the `slurmd` node to run a job.
 
 To prepare your local `license-manager-agent` to use the simulator, run the simulator API, get its IP address and
 pass it to the `make setup` command:
@@ -89,7 +89,7 @@ After executing this command, you'll be able to submit jobs that use the simulat
 You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
 There is an `application.sh` script that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
-application for test that creates a license_in_use in the API, sleeps, then deletes the license_in_use.
+application for testing purposes that creates a license_in_use in the API, sleeps, then deletes the license_in_use.
 There is also a `batch.sh` script to run the application via `sbatch`.
 
 These files are seeded with the API IP address provided in the step above and available at `/tmp` folder in the `slurmd` node.
