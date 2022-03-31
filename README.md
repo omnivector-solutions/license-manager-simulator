@@ -64,6 +64,7 @@ To install this project, clone the repository and use `docker-compose` to run it
 ```bash
 $ docker-compose up
 ```
+
 This will create a container for the API, and also a PostgreSQL container for the database.
 
 The API will be available at `http://localhost:8000`.
@@ -85,6 +86,7 @@ $ make setup lm_sim_ip=http://127.0.0.1:8000
 ```
 
 After executing this command, you'll be able to submit jobs that use the simulated licenses.
+
 ## Usage
 You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
