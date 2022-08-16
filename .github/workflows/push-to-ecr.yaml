@@ -1,0 +1,59 @@
+name: Publish image to ECR
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
+
+jobs:
+  publish:
+    name: Publish to ECR
+    runs-on: ubuntu-20.04
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - uses: Gr1N/setup-poetry@v7
+
+      - id: poetry-package-version
+        name: Get version of project from poetry
+        run: |
+          echo "Poetry version is: $(poetry version --short)"
+          echo "::set-output name=version::$(poetry version --short)"
+
+      - name: Fail if poetry package version doesn't match tag
+        if: ${{ github.ref_name != steps.poetry-package-version.outputs.version }}
+        run: |
+          echo "Poetry package version doesn't match tag!"
+          echo "tag=${{ github.ref_name }}, version=${{ steps.poetry-package-version.outputs.version }}"
+          exit 1
+
+      - name: Setup AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region           : us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry-type: public
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REGISTRY_ALIAS: n3g6o3n2
+          REPOSITORY: lm-simulator
+          IMAGE_TAG: ${{ github.ref_name }}
+        run: |
+          docker build -t $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
