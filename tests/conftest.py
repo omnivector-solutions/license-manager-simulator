@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from license_manager_simulator.config import settings
 from license_manager_simulator.database import Base
-from license_manager_simulator.main import app, get_db
+from license_manager_simulator.main import get_db, subapp
 from license_manager_simulator.schemas import LicenseCreate, LicenseInUseCreate
 
 
@@ -51,8 +51,8 @@ def client(session):
     def override_get_db():
         yield session
 
-    app.dependency_overrides[get_db] = override_get_db
-    yield TestClient(app)
+    subapp.dependency_overrides[get_db] = override_get_db
+    yield TestClient(subapp)
 
 
 @fixture

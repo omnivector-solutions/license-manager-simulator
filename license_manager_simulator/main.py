@@ -1,6 +1,7 @@
 from typing import List
 
-from fastapi import Body, Depends, FastAPI, HTTPException, status
+from fastapi import Body, Depends, FastAPI, HTTPException, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -8,8 +9,6 @@ from license_manager_simulator import crud, models, schemas
 from license_manager_simulator.database import engine, session
 
 models.Base.metadata.create_all(bind=engine)
-
-app = FastAPI()
 
 
 def get_db():
@@ -20,7 +19,28 @@ def get_db():
         db.close()
 
 
-@app.post(
+subapp = FastAPI(title="License Manager Simulator API")
+subapp.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@subapp.get(
+    "/health",
+    status_code=status.HTTP_204_NO_CONTENT,
+    responses={204: {"description": "API is healthy"}},
+)
+def health():
+    """
+    Provide a health-check endpoint for the app.
+    """
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@subapp.post(
     "/licenses/",
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.LicenseRow,
@@ -33,7 +53,7 @@ def create_license(license: schemas.LicenseCreate, db: Session = Depends(get_db)
     return created_license
 
 
-@app.get(
+@subapp.get(
     "/licenses/",
     status_code=status.HTTP_200_OK,
     response_model=List[schemas.LicenseRow],
@@ -42,7 +62,7 @@ def list_licenses(db: Session = Depends(get_db)):
     return crud.get_licenses(db)
 
 
-@app.post(
+@subapp.post(
     "/licenses-in-use/",
     status_code=status.HTTP_201_CREATED,
     response_model=schemas.LicenseInUseRow,
@@ -62,7 +82,7 @@ def create_license_in_use(license_in_use: schemas.LicenseInUseCreate, db: Sessio
     return created_license_in_use
 
 
-@app.get(
+@subapp.get(
     "/licenses-in-use/",
     status_code=status.HTTP_200_OK,
     response_model=List[schemas.LicenseInUseRow],
@@ -71,7 +91,7 @@ def list_licenses_in_use(db: Session = Depends(get_db)):
     return crud.get_licenses_in_use(db)
 
 
-@app.get(
+@subapp.get(
     "/licenses-in-use/{license_name}",
     status_code=status.HTTP_200_OK,
     response_model=List[schemas.LicenseInUseRow],
@@ -80,7 +100,7 @@ def list_licenses_in_use_from_name(license_name: str, db: Session = Depends(get_
     return crud.get_licenses_in_use_from_name(db, license_name)
 
 
-@app.delete(
+@subapp.delete(
     "/licenses-in-use/",
     status_code=status.HTTP_200_OK,
     response_model=List[int],
@@ -96,3 +116,7 @@ def delete_license_in_use(
         return crud.delete_license_in_use(db, lead_host, user_name, quantity, license_name)
     except crud.LicenseNotFound:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="License not found.")
+
+
+app = FastAPI()
+app.mount("/lm-sim", subapp)

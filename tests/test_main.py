@@ -4,6 +4,12 @@ from fastapi import status
 from license_manager_simulator.models import License, LicenseInUse
 
 
+def test_health_check(client):
+    """Test the health check route."""
+    response = client.get("/health")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
 def test_create_license(client):
     """Test that the correct status code and response are returned on in use license creation."""
     response = client.post(
