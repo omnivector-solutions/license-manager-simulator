@@ -12,7 +12,7 @@
 #
 # This script expects as argument:
 #   - IP address for License Manager Simulator API
-#		* format example: http://127.0.0.1:8000 
+#		* format example: http://127.0.0.1:8000/lm-sim 
 #
 # Note: The simulator API uses the `feature` to identify the licenses, as is done in the real license servers output.
 #       The `product` is used only in the backend config row and in the Slurm cluster.

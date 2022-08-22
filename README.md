@@ -67,7 +67,7 @@ $ docker-compose up
 
 This will create a container for the API, and also a PostgreSQL container for the database.
 
-The API will be available at `http://localhost:8000`.
+The API will be available at `http://localhost:8000/lm-sim`.
 
 ## Prerequisites
 To use the license-manager-simulator you must have `Slurm` and `license-manager-agent` charms deployed with `Juju`.
@@ -82,13 +82,13 @@ To prepare your local `license-manager-agent` to use the simulator, run the simu
 pass it to the `make setup` command:
 
 ```bash
-$ make setup lm_sim_ip=http://127.0.0.1:8000
+$ make setup lm_sim_ip=http://127.0.0.1:8000/lm-sim
 ```
 
 After executing this command, you'll be able to submit jobs that use the simulated licenses.
 
 ## Usage
-You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/docs`. This helps you to make requests directly with the browser into the API, with examples.
+You can add/remove licenses from the license server API using the online interface at `http://localhost:8000/lm-sim/docs`. This helps you to make requests directly with the browser into the API, with examples.
 
 There is an `application.sh` script that is intended to run in Slurm as a job that uses the licenses from the API. It is just a dummy
 application for testing purposes that creates a license_in_use in the API, sleeps, then deletes the license_in_use.
