@@ -39,10 +39,10 @@ folders=(
 
 # Scripts that will be copied to the machine
 scripts=(
-	"lms-util.py"
-	"rlm-util.py"
-	"lsdyna-util.py"
-	"lmx-util.py"
+	"lmutil.py"
+	"rlmutil.py"
+	"lstc_qrun.py"
+	"lmxendutil.py"
 )
 
 # License server binary names (will be simulated using the scripts)
@@ -55,10 +55,10 @@ binary_names=(
 
 # Template files that will render information retrieved from the simulator backend
 templates=(
-	"flexlm.out.tmpl"
-	"rlm.out.tmpl"
-	"lsdyna.out.tmpl"
-	"lmx.out.tmpl"
+	"lmutil.out.tmpl"
+	"rlmutil.out.tmpl"
+	"lstc_qrun.out.tmpl"
+	"lmxendutil.out.tmpl"
 )
 
 # Charm configs that indicate where each binary is located 
