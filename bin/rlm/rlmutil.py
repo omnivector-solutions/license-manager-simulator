@@ -2,7 +2,7 @@
 """
 File that will be called by the license-manager-agent in the report function.
 
-It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the rlm,
+It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the RLM,
 this way we can use the same rlm parser in the license-manager-agent.
 """
 import requests
@@ -20,7 +20,7 @@ def get_server_data():
     To simulate the RLM output, add this license to the backend:
     {
         "name": "converge_super",
-        "total": 11
+        "total": 1000
     }
     Since RLM outputs the feature name as the product and feature concatenated with a underscore,
     the license in the simulator database should be named with two words concatenated by ``_``.
@@ -41,7 +41,7 @@ def get_server_data():
 
 def generate_license_server_output() -> None:
     """Print output formatted to stdout."""
-    source = "rlm.out.tmpl"
+    source = "rlmutil.out.tmpl"
     licenses_information = get_server_data()
 
     template = Environment(loader=FileSystemLoader("."), trim_blocks=True, lstrip_blocks=True).get_template(
