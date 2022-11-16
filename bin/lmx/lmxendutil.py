@@ -20,7 +20,7 @@ def get_server_data():
     To simulate the LM-X output, add this license to the backend:
     {
         "name": "HyperWorks",
-        "total": 1000000
+        "total": 1000
     }
     Since LM-X outputs only the ``feature`` name (omitting the ``product``), the license
     in the simulator database should be created with the feature as its name.
@@ -41,7 +41,7 @@ def get_server_data():
 
 def generate_license_server_output():
     """Print output formatted to stdout."""
-    source = "lmx.out.tmpl"
+    source = "lmxendutil.out.tmpl"
     license_information = get_server_data()
 
     template = Environment(loader=FileSystemLoader("."), trim_blocks=True, lstrip_blocks=True).get_template(
