@@ -35,6 +35,7 @@ folders=(
 	"rlm"
 	"lsdyna"
 	"lmx"
+	"olicense"
 )
 
 # Scripts that will be copied to the machine
@@ -43,6 +44,7 @@ scripts=(
 	"rlmutil.py"
 	"lstc_qrun.py"
 	"lmxendutil.py"
+	"olixtool.py"
 )
 
 # License server binary names (will be simulated using the scripts)
@@ -51,6 +53,7 @@ binary_names=(
 	"rlmutil"
 	"lstc_qrun"
 	"lmxendutil"
+	"olixtool.py"
 )
 
 # Template files that will render information retrieved from the simulator backend
@@ -59,6 +62,7 @@ templates=(
 	"rlmutil.out.tmpl"
 	"lstc_qrun.out.tmpl"
 	"lmxendutil.out.tmpl"
+	"olixtool.out.tmpl"
 )
 
 # Charm configs that indicate where each binary is located 
@@ -67,6 +71,7 @@ configs=(
 	"rlmutil-path"
 	"lsdyna-path"
 	"lmxendutil-path"
+	"olixtool-path"
 )
 
 # Changing path and ip address in script files
