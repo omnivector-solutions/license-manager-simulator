@@ -11,7 +11,7 @@
 #
 # This script expects as argument:
 #   - IP address for License Manager Simulator API
-#		* format example: http://127.0.0.1:8000/lm-sim
+#		* format example: http://127.0.0.1:8000
 #
 # After preparing the environment, the licenses should be configured using the `configure-licenses.sh` script.
 
@@ -74,7 +74,7 @@ for i in {0..3}; do
 	echo "Updating ${folders[$i]}/${scripts[$i]} file"
 	sed -i "s|#!/usr/bin/env python3|$python_path|gi" ./bin/${folders[$i]}/${scripts[$i]}
 	sed -i "s|(\".\")|(\"$file_path\")|gi" ./bin/${folders[$i]}/${scripts[$i]}
-	sed -i "s|http://localhost:8000/lm-sim|$lm_sim_ip|gi" ./bin/${folders[$i]}/${scripts[$i]}
+	sed -i "s|http://localhost:8000/lm-sim|$lm_sim_ip/lm-sim|gi" ./bin/${folders[$i]}/${scripts[$i]}
 done
 
 # Copying script and template files to machine

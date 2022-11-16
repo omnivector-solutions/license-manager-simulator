@@ -11,8 +11,8 @@ from jinja2 import Environment, FileSystemLoader
 # You must modify this value to reflect the ip address and port that the
 # license-manager-simulator is listening on in your environment.
 #
-# The format of the value is: `http://<ip-address>:<port>`
-URL = "http://localhost:8000"
+# The format of the value is: `http://<ip-address>:<port>/lm-sim`
+URL = "http://localhost:8000/lm-sim"
 
 
 def get_server_data():
