@@ -79,7 +79,7 @@ for i in {0..4}; do
 	echo "Updating ${folders[$i]}/${scripts[$i]} file"
 	sed -i "s|#!/usr/bin/env python3|$python_path|gi" ./bin/${folders[$i]}/${scripts[$i]}
 	sed -i "s|(\".\")|(\"$file_path\")|gi" ./bin/${folders[$i]}/${scripts[$i]}
-	sed -i "s|http://localhost:8000/lm-sim|$lm_sim_ip/lm-sim|gi" ./bin/${folders[$i]}/${scripts[$i]}
+	sed -i "s|http://localhost:8000|$lm_sim_ip|gi" ./bin/${folders[$i]}/${scripts[$i]}
 done
 
 # Copying script and template files to machine
