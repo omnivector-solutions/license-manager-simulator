@@ -20,7 +20,7 @@ def get_server_data():
     To simulate the LS-Dyna output, add this license to the backend:
     {
         "name": "MPPDYNA",
-        "total": 500
+        "total": 1000
     }
     Since LS-Dyna outputs the feature name with all letters in uppercase,
     the license in the simulator database should be named in uppercase as well.
@@ -42,7 +42,7 @@ def get_server_data():
 
 def generate_license_server_output():
     """Print output formatted to stdout."""
-    source = "lsdyna.out.tmpl"
+    source = "lstc_qrun.out.tmpl"
     license_information = get_server_data()
 
     template = Environment(loader=FileSystemLoader("."), trim_blocks=True, lstrip_blocks=True).get_template(
