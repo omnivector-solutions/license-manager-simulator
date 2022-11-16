@@ -2,7 +2,7 @@
 """
 File that will be called by the license-manager-agent in the report function.
 
-It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the flexlm,
+It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the FlexLM,
 this way we can use the same flexlm parser in the license-manager-agent.
 """
 import requests
@@ -39,7 +39,7 @@ def get_server_data():
 
 def generate_license_server_output() -> None:
     """Print output formatted to stdout."""
-    source = "flexlm.out.tmpl"
+    source = "lmutil.out.tmpl"
     license_information = get_server_data()
 
     template = Environment(loader=FileSystemLoader(".")).get_template(source)
