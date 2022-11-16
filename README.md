@@ -82,7 +82,7 @@ To prepare your local `license-manager-agent` to use the simulator, run the simu
 pass it to the `make setup` command:
 
 ```bash
-$ make setup lm_sim_ip=http://127.0.0.1:8000/lm-sim
+$ make setup lm_sim_ip=http://127.0.0.1:8000
 ```
 
 After executing this command, you'll be able to submit jobs that use the simulated licenses.

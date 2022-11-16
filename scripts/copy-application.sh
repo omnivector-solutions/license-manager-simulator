@@ -8,7 +8,7 @@
 #
 # This script expects as argument:
 #   - IP address for License Manager Simulator API
-#		* format example: http://127.0.0.1:8000/lm-sim
+#		* format example: http://127.0.0.1:8000
 #
 # Note: To run the application you need to specify which license will be used in both the application and batch script files.
 #       For simplicity, this script will change the files to use 42 `abaqus` licenses.
@@ -25,7 +25,7 @@ fi
 
 # Change ip address in application file
 echo "Updating application file with simulator ip address"
-sed -i "s|http://localhost:8000/lm-sim|$lm_sim_ip|gi" ./job/application.sh
+sed -i "s|http://localhost:8000|$lm_sim_ip|gi" ./job/application.sh
 
 # Change license name to `abaqus` in job files
 echo "Updating job files with correct license name"

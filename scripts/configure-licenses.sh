@@ -12,7 +12,7 @@
 #
 # This script expects as argument:
 #   - IP address for License Manager Simulator API
-#		* format example: http://127.0.0.1:8000/lm-sim 
+#		* format example: http://127.0.0.1:8000
 #
 # Note: The simulator API uses the `feature` to identify the licenses, as is done in the real license servers output.
 #       The `product` is used only in the backend config row and in the Slurm cluster.
@@ -39,7 +39,7 @@ licenses_for_api=(
 # Licenses to be added to the Slurm cluster
 licenses_for_slurm=(
     "abaqus.abaqus"
-    "converge.super"
+    "converge.converge_super"
     "mppdyna.mppdyna"
     "hyperworks.hyperworks"
 )
@@ -60,7 +60,7 @@ for license in ${licenses_for_api[@]}; do
     data+='", "total": 1000}'
 
     curl --request POST \
-    --url $lm_sim_ip/licenses/ \
+    --url $lm_sim_ip/lm-sim/licenses/ \
     --header 'Content-Type: application/json' \
     --data "$data"
 done

@@ -2,8 +2,8 @@
 """
 File that will be called by the license-manager-agent in the report function.
 
-It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the rlm,
-this way we can use the same rlm parser in the license-manager-agent.
+It will hit the /licenses-in-use/ endpoint and will generate the report in the same format as the LM-X,
+this way we can use the same LM-X parser in the license-manager-agent.
 """
 import requests
 from jinja2 import Environment, FileSystemLoader
@@ -17,18 +17,18 @@ URL = "http://localhost:8000"
 
 def get_server_data():
     """
-    To simulate the RLM output, add this license to the backend:
+    To simulate the LM-X output, add this license to the backend:
     {
-        "name": "converge_super",
-        "total": 11
+        "name": "HyperWorks",
+        "total": 1000
     }
-    Since RLM outputs the feature name as the product and feature concatenated with a underscore,
-    the license in the simulator database should be named with two words concatenated by ``_``.
+    Since LM-X outputs only the ``feature`` name (omitting the ``product``), the license
+    in the simulator database should be created with the feature as its name.
     """
-    licenses = requests.get(URL + "/licenses/").json()
+    licenses = requests.get(URL + "/lm-sim/licenses/").json()
 
     for license in licenses:
-        if license["name"] == "converge_super":
+        if license["name"] == "HyperWorks":
             any_in_use = license["in_use"] > 0
             return {
                 "license_name": license.get("name"),
@@ -39,15 +39,15 @@ def get_server_data():
             }
 
 
-def generate_license_server_output() -> None:
+def generate_license_server_output():
     """Print output formatted to stdout."""
-    source = "rlm.out.tmpl"
-    licenses_information = get_server_data()
+    source = "lmxendutil.out.tmpl"
+    license_information = get_server_data()
 
     template = Environment(loader=FileSystemLoader("."), trim_blocks=True, lstrip_blocks=True).get_template(
         source
     )
-    print(template.render(**licenses_information))
+    print(template.render(**license_information))
 
 
 if __name__ == "__main__":

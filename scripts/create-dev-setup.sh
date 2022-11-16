@@ -11,7 +11,7 @@
 #
 # This script expects as argument:
 #   - IP address for License Manager Simulator API
-#		* format example: http://127.0.0.1:8000/lm-sim 
+#		* format example: http://127.0.0.1:8000
 #
 # To run this script you need to have the simulator API running. Use `docker-compose up` to run the API.
 
