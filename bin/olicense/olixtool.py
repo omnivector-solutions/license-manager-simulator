@@ -11,8 +11,8 @@ from jinja2 import Environment, FileSystemLoader
 # You must modify this value to reflect the ip address and port that the
 # license-manager-simulator is listening on in your environment.
 #
-# The format of the value is: `http://<ip-address>:<port>/lm-sim`
-URL = "http://localhost:8000/lm-sim"
+# The format of the value is: `http://<ip-address>:<port>`
+URL = "http://localhost:8000"
 
 
 def get_server_data():
@@ -25,7 +25,7 @@ def get_server_data():
     Since OLicense outputs only the ``feature`` name (omitting the ``product``), the license
     in the simulator database should be created with the feature as its name.
     """
-    licenses = requests.get(URL + "/licenses/").json()
+    licenses = requests.get(URL + "/lm-sim/licenses/").json()
 
     for license in licenses:
         if license["name"] == "ftire_adams":
