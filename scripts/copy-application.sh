@@ -25,7 +25,7 @@ fi
 
 # Change ip address in application file
 echo "Updating application file with simulator ip address"
-sed -i "s|http://localhost:8000/lm-sim|$lm_sim_ip/lm-sim|gi" ./job/application.sh
+sed -i "s|http://localhost:8000|$lm_sim_ip|gi" ./job/application.sh
 
 # Change license name to `abaqus` in job files
 echo "Updating job files with correct license name"

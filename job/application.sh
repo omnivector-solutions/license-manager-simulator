@@ -4,8 +4,8 @@ set -e
 # You must modify this value to reflect the ip address and port that the
 # license-manager-simulator is listening on in your environment.
 #
-# The format of the value is: `http://<ip-address>:<port>/lm-sim`
-URL="http://localhost:8000/lm-sim"
+# The format of the value is: `http://<ip-address>:<port>`
+URL="http://localhost:8000"
 
 # number of licenses: from the CLI or 42
 if [ -z $1 ]; then
@@ -24,7 +24,7 @@ status=$(curl -s -o /dev/null -w '%{http_code}' \
 	      -X 'POST' \
 	      -H 'Content-Type: application/json' \
 	      -d "$payload" \
-	      "$URL"/licenses-in-use/)
+	      "$URL"/lm-sim/licenses-in-use/)
 if [ "$status" = "201" ]; then
 	echo "There are enought licenses available, lets run (sleep) the job"
 	sleep $((RANDOM % 100 + 100))
@@ -38,6 +38,6 @@ curl -s -o /dev/null \
      -X DELETE \
      -H 'Content-Type: application/json' \
      -d "$payload" \
-     "$URL"/licenses-in-use/
+     "$URL"/lm-sim/licenses-in-use/
 
 echo "Job done"
