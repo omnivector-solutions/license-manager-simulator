@@ -8,6 +8,7 @@
 #       * converge_super for RLM;
 #       * MPPDYNA for LS-Dyna;
 #       * HyperWorks for LM-X;
+#       * ftire_adams for OLicense;
 #   - Add the same licenses in the Slurm cluster;
 #
 # This script expects as argument:
@@ -34,6 +35,7 @@ licenses_for_api=(
     "converge_super"
     "MPPDYNA"
     "HyperWorks"
+    "ftire_adams"
 )
 
 # Licenses to be added to the Slurm cluster
@@ -42,6 +44,7 @@ licenses_for_slurm=(
     "converge.converge_super"
     "mppdyna.mppdyna"
     "hyperworks.hyperworks"
+    "cosin.ftire_adams"
 )
 
 # Server type for Slurm licenses
@@ -50,6 +53,7 @@ server_types=(
     "rlm"
     "lsdyna"
     "lmx"
+    "olicense"
 )
 
 # Adding licenses to License Simulator API
@@ -66,7 +70,7 @@ for license in ${licenses_for_api[@]}; do
 done
 
 # Adding licenses to Slurm cluster
-for i in {0..3}; do
+for i in {0..4}; do
     echo "Adding ${licenses_for_slurm[$i]} license to Slurm cluster"
     juju ssh slurmctld/leader sudo sacctmgr add resource Type=license Clusters=osd-cluster \
         Server=${server_types[$i]} Names=${licenses_for_slurm[$i]} Count=1000 ServerType=${server_types[$i]} PercentAllowed=100 -i

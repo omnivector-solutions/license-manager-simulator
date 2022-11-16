@@ -35,6 +35,7 @@ folders=(
 	"rlm"
 	"lsdyna"
 	"lmx"
+	"olicense"
 )
 
 # Scripts that will be copied to the machine
@@ -43,6 +44,7 @@ scripts=(
 	"rlmutil.py"
 	"lstc_qrun.py"
 	"lmxendutil.py"
+	"olixtool.py"
 )
 
 # License server binary names (will be simulated using the scripts)
@@ -51,6 +53,7 @@ binary_names=(
 	"rlmutil"
 	"lstc_qrun"
 	"lmxendutil"
+	"olixtool.py"
 )
 
 # Template files that will render information retrieved from the simulator backend
@@ -59,6 +62,7 @@ templates=(
 	"rlmutil.out.tmpl"
 	"lstc_qrun.out.tmpl"
 	"lmxendutil.out.tmpl"
+	"olixtool.out.tmpl"
 )
 
 # Charm configs that indicate where each binary is located 
@@ -67,10 +71,11 @@ configs=(
 	"rlmutil-path"
 	"lsdyna-path"
 	"lmxendutil-path"
+	"olixtool-path"
 )
 
 # Changing path and ip address in script files
-for i in {0..3}; do
+for i in {0..4}; do
 	echo "Updating ${folders[$i]}/${scripts[$i]} file"
 	sed -i "s|#!/usr/bin/env python3|$python_path|gi" ./bin/${folders[$i]}/${scripts[$i]}
 	sed -i "s|(\".\")|(\"$file_path\")|gi" ./bin/${folders[$i]}/${scripts[$i]}
@@ -89,7 +94,7 @@ done
 juju ssh license-manager-agent/leader sudo mkdir $file_path
 
 # Moving files to correct location and adding executable permission
-for i in {0..3}; do
+for i in {0..4}; do
 	echo "Moving ${scripts[$i]} script file and renaming to ${binary_names[$i]}"
 	juju ssh license-manager-agent/leader sudo mv /tmp/simulator-files/${folders[$i]}/${scripts[$i]} $file_path/${binary_names[$i]}
 
@@ -101,7 +106,7 @@ for i in {0..3}; do
 done
 
 # Configuring binaries' path in the charm to the correct location
-for i in {0..3}; do
+for i in {0..4}; do
 	echo "Setting ${configs[$i]} charm config"
 	juju config license-manager-agent ${configs[$i]}=$file_path/${binary_names[$i]}
 done
