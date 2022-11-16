@@ -3,6 +3,8 @@
 This file keeps track of all notable changes to license-manager-simulator
 
 ## Unreleased
+
+## 0.3.0 -- 2022-11-16
 * Fixed lm-sim ip in setup scripts to use the new subapp endpoint
 * Renamed script and template files to match license servers' binary filename
 * Created OLicense Generator
