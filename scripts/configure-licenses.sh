@@ -39,7 +39,7 @@ licenses_for_api=(
 # Licenses to be added to the Slurm cluster
 licenses_for_slurm=(
     "abaqus.abaqus"
-    "converge.super"
+    "converge.converge_super"
     "mppdyna.mppdyna"
     "hyperworks.hyperworks"
 )
