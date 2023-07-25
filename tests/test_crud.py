@@ -49,6 +49,30 @@ def test_get_licenses(session):
     assert licenses_response[1].total == 10
 
 
+def test_delete_license(session, one_license):
+    session.add(License(**one_license.dict()))
+    session.commit()
+
+    licenses_in_db = session.execute(select(License)).scalars().all()
+    assert len(licenses_in_db) == 1
+    crud.delete_license(session, one_license.name)
+    licenses_in_db_after_delete = session.execute(select(License)).scalars().all()
+    assert len(licenses_in_db_after_delete) == 0
+
+
+def test_delete_license_not_found(session, one_license):
+    session.add(License(**one_license.dict()))
+    session.commit()
+
+    with pytest.raises(crud.LicenseNotFound):
+        crud.delete_license(
+            session,
+            "non-existing-license",
+        )
+    licenses_in_db = session.execute(select(License)).scalars().all()
+    assert len(licenses_in_db) == 1
+
+
 def test_get_licenses_in_use(session, one_license, one_license_in_use):
     session.add(License(**one_license.dict()))
     session.add(LicenseInUse(**one_license_in_use.dict(), id=1))
@@ -162,16 +186,18 @@ def test_delete_license_in_use(session, one_license, one_license_in_use):
     session.add(LicenseInUse(**one_license_in_use.dict(), id=1))
     session.commit()
 
-    ids = crud.delete_license_in_use(
+    license_in_use_in_db = session.execute(select(LicenseInUse)).scalars().all()
+    assert len(license_in_use_in_db) == 1
+    
+    crud.delete_license_in_use(
         session,
         one_license_in_use.lead_host,
         one_license_in_use.user_name,
         one_license_in_use.quantity,
         one_license_in_use.license_name,
     )
-    assert len(ids) == 1
-    license_in_use_in_db = session.execute(select(LicenseInUse)).scalars().all()
-    assert len(license_in_use_in_db) == 0
+    license_in_use_in_db_after_delete = session.execute(select(LicenseInUse)).scalars().all()
+    assert len(license_in_use_in_db_after_delete) == 0
 
 
 def test_delete_license_in_use_not_found(session, one_license, one_license_in_use):
