@@ -63,7 +63,7 @@ def list_licenses(db: Session = Depends(get_db)):
 
 
 @subapp.delete(
-    "/licenses/{license_name}/",
+    "/licenses/{license_name}",
     status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_license(
