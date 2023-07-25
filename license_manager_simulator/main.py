@@ -62,6 +62,22 @@ def list_licenses(db: Session = Depends(get_db)):
     return crud.get_licenses(db)
 
 
+@subapp.delete(
+    "/licenses/{license_name}/",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_license(
+    license_name: str,
+    db: Session = Depends(get_db),
+):
+    try:
+        crud.delete_license(db, license_name)
+    except crud.LicenseNotFound:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="License not found.")
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
 @subapp.post(
     "/licenses-in-use/",
     status_code=status.HTTP_201_CREATED,
@@ -102,8 +118,7 @@ def list_licenses_in_use_from_name(license_name: str, db: Session = Depends(get_
 
 @subapp.delete(
     "/licenses-in-use/",
-    status_code=status.HTTP_200_OK,
-    response_model=List[int],
+    status_code=status.HTTP_204_NO_CONTENT,
 )
 def delete_license_in_use(
     lead_host: str = Body(...),
@@ -113,9 +128,11 @@ def delete_license_in_use(
     db: Session = Depends(get_db),
 ):
     try:
-        return crud.delete_license_in_use(db, lead_host, user_name, quantity, license_name)
+        crud.delete_license_in_use(db, lead_host, user_name, quantity, license_name)
     except crud.LicenseNotFound:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="License not found.")
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 app = FastAPI()
