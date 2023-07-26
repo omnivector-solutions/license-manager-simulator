@@ -15,6 +15,6 @@ jobs:
           python-version: '3.8'
           architecture: 'x64'
       - name: "Python Poetry Action"
-        uses: Gr1N/setup-poetry@v7
+        uses: Gr1N/setup-poetry@v8
       - name: "Run tests and linters"
         run: make qa
