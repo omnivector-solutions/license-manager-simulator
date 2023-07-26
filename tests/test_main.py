@@ -248,14 +248,14 @@ def test_delete_license(client, session, one_license):
     session.commit()
 
     response = client.delete(
-        "/licenses/test_name/"
+        "/licenses/test_name"
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_delete_license_not_found(client):
     response = client.delete(
-        "/licenses/not-a-license/"
+        "/licenses/not-a-license"
     )
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert "License not found" in response.text
