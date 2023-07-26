@@ -95,7 +95,7 @@ def delete_license_in_use(
     user_name: str,
     quantity: int,
     license_name: str,
-) -> List:
+):
     """Delete the license_in_use from the database.
 
     To be able to delete a license_in_use, the license_in_use must exists in the database, if it doesn't
@@ -110,4 +110,20 @@ def delete_license_in_use(
         session.execute(delete(LicenseInUse).where(LicenseInUse.id == id))
 
     session.commit()
-    return ids_to_delete
+
+
+def delete_license(
+    session: Session,
+    license_name: str,
+):
+    """Delete the license from the database.
+
+    To be able to delete a license, the license must exists in the database, if it doesn't
+    then we raise a LicenseNotFound exception.
+    """
+    license = _get_license_available(session, license_name)
+    if not license:
+        raise LicenseNotFound()
+
+    session.execute(delete(License).where(License.name == license_name))
+    session.commit()

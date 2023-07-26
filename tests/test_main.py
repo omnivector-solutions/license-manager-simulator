@@ -231,8 +231,7 @@ def test_delete_license_in_use(client, session, one_license):
         "/licenses-in-use/",
         json={"license_name": "test_name", "quantity": 10, "user_name": "user1", "lead_host": "host1"},
     )
-    assert response.status_code == status.HTTP_200_OK
-    assert response.json() == [1]
+    assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
 def test_delete_license_in_use_not_found(client):
@@ -240,5 +239,19 @@ def test_delete_license_in_use_not_found(client):
         "/licenses-in-use/",
         json={"license_name": "test_name", "quantity": 10, "user_name": "user1", "lead_host": "host1"},
     )
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert "License not found" in response.text
+
+
+def test_delete_license(client, session, one_license):
+    session.add(License(**one_license.dict()))
+    session.commit()
+
+    response = client.delete("/licenses/test_name")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+
+def test_delete_license_not_found(client):
+    response = client.delete("/licenses/not-a-license")
     assert response.status_code == status.HTTP_404_NOT_FOUND
     assert "License not found" in response.text
