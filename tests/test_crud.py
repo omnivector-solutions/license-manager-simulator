@@ -188,7 +188,7 @@ def test_delete_license_in_use(session, one_license, one_license_in_use):
 
     license_in_use_in_db = session.execute(select(LicenseInUse)).scalars().all()
     assert len(license_in_use_in_db) == 1
-    
+
     crud.delete_license_in_use(
         session,
         one_license_in_use.lead_host,
