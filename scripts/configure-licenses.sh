@@ -31,29 +31,17 @@ fi
 
 # Licenses to be added to the simulator API
 licenses_for_api=(
-    "abaqus"
-    "converge_super"
-    "MPPDYNA"
-    "HyperWorks"
-    "ftire_adams"
+    "test_feature"
 )
 
 # Licenses to be added to the Slurm cluster
 licenses_for_slurm=(
-    "abaqus.abaqus"
-    "converge.converge_super"
-    "mppdyna.mppdyna"
-    "hyperworks.hyperworks"
-    "cosin.ftire_adams"
+    "test_product.test_feature"
 )
 
 # Server type for Slurm licenses
 server_types=(
     "flexlm"
-    "rlm"
-    "lsdyna"
-    "lmx"
-    "olicense"
 )
 
 # Adding licenses to License Simulator API

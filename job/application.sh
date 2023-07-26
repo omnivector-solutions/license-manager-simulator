@@ -17,7 +17,7 @@ fi
 payload="{\"quantity\": "$X", \
           \"user_name\": \""$USER"\", \
           \"lead_host\": \"$(hostname)\", \
-          \"license_name\": \"fake_feature\"}"
+          \"license_name\": \"test_feature\"}"
 
 echo "Requesting $X licenses for user $USER"
 status=$(curl -s -o /dev/null -w '%{http_code}' \
